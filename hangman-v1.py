@@ -15,8 +15,7 @@ while concheck == True:
     if hangchoice == 1:
         # another attempt at hangman
 
-        with open(
-                "C:\\EverythingElse\\Pythons\\prodjets\\jproject.py\\Databank\\wordlist.txt") as f:
+        with open("wordlist.txt") as f:
             wordlist = []
             for line in f:
                 wordlist.append(line.strip())
@@ -34,7 +33,7 @@ while concheck == True:
     #Video games hangman
     elif hangchoice == 3:
 
-        with open("C:\\EverythingElse\\Pythons\\prodjets\\jproject.py\\Databank\\videogameslist.txt") as f:
+        with open("videogameslist.txt") as f:
             wordlist = []
             for line in f:
                 wordlist.append(line.strip())
