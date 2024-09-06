@@ -1,5 +1,6 @@
 import english_words
 import random
+# repairing directories
 
 concheck = True
 while concheck == True:
