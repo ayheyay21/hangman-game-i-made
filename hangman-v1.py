@@ -1,6 +1,8 @@
 import english_words
 import random
+import os
 # repairing directories
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
 concheck = True
 while concheck == True:
@@ -27,7 +29,7 @@ while concheck == True:
     elif hangchoice == 2:
         # another attempt at hangman
 
-        wordset = list(english_words_lower_alpha_set)
+        wordset = list(english_words.english_words_lower_alpha_set)
         word = random.choice(wordset)
 
         word = random.choice(wordset)
