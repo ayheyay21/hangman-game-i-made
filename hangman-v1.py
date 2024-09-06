@@ -1,5 +1,8 @@
 import english_words
 import random
+import os
+# repairing directories
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
 concheck = True
 while concheck == True:
@@ -14,8 +17,9 @@ while concheck == True:
     # Common English Words
     if hangchoice == 1:
         # another attempt at hangman
+        file_path = os.path.join(script_dir, 'database', 'wordlist.txt')
 
-        with open("wordlist.txt") as f:
+        with open(file_path) as f:
             wordlist = []
             for line in f:
                 wordlist.append(line.strip())
@@ -26,14 +30,16 @@ while concheck == True:
     elif hangchoice == 2:
         # another attempt at hangman
 
-        wordset = list(english_words_lower_alpha_set)
+        wordset = list(english_words.english_words_lower_alpha_set)
         word = random.choice(wordset)
 
         word = random.choice(wordset)
     #Video games hangman
     elif hangchoice == 3:
 
-        with open("videogameslist.txt") as f:
+        file_path = os.path.join(script_dir, 'database', 'videogameslist.txt')
+
+        with open(file_path) as f:
             wordlist = []
             for line in f:
                 wordlist.append(line.strip())
