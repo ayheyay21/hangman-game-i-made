@@ -17,8 +17,9 @@ while concheck == True:
     # Common English Words
     if hangchoice == 1:
         # another attempt at hangman
+        file_path = os.path.join(script_dir, 'database', 'wordlist.txt')
 
-        with open("wordlist.txt") as f:
+        with open(file_path) as f:
             wordlist = []
             for line in f:
                 wordlist.append(line.strip())
@@ -36,7 +37,9 @@ while concheck == True:
     #Video games hangman
     elif hangchoice == 3:
 
-        with open("videogameslist.txt") as f:
+        file_path = os.path.join(script_dir, 'database', 'videogameslist.txt')
+
+        with open(file_path) as f:
             wordlist = []
             for line in f:
                 wordlist.append(line.strip())
