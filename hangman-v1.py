@@ -1,7 +1,7 @@
 import english_words
 import random
 import os
-# repairing directories
+# testing desktop gits
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 concheck = True
