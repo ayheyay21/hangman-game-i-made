@@ -1,195 +1,195 @@
-the united states of america
-canada
-mexico
-guatemala
-honduras
-nicaragua
-costa rica
-el salvador
-jamaica
-bahamas
-barbados
-saint vincent and the grenadines
-grenada
-saint lucia
-trinidad and tobago
-haiti
-dominica
-cuba
-dominican republic
-antigua and barbuda
-panama
-belize
-saint kitts and nevis
-venzuela
-chile
-colombia
-ecuador
-brazil
-peru
-uruguay
-paraguay
-argentina
-suriname
-guyana
-bolivia
-united kingdom
-iceland
-ireland
-portugal
-spain
+afghanistan
+albania
+algeria
 andorra
-monaco
-france
-italy
-san marino
-finland
-vatican city
-switzerland
-belgium
-the netherlands
+angola
+antigua and barbuda
+argentina
+armenia
+australia
+austria
+azerbaijan
+bahamas
+bahrain
+bangladesh
+barbados
 belarus
-germany
-poland
-lichtenstein
-luxembourg
-czechia
-denmark
-norway
-sweden
-latvia
-lithuania
-estonia
-russia
+belgium
+belize
+benin
+bhutan
+bolivia
+bosnia and herzegovina
+botswana
+brazil
+brunei
 bulgaria
+burkina faso
+burundi
+cabo verde
+cambodia
+cameroon
+canada
+central african republic
+chad
+chile
+china
+colombia
+comoros
+costa rica
+croatia
+cuba
+cyprus
+czechia
+democratic republic of the congo
+denmark
+djibouti
+dominica
+dominican republic
+east timor
+ecuador
+egypt
+eithopia
+el salvador
+equatorial guinea
+eritrea
+estonia
+eswatini
+fiji
+finland
+france
+gabon
+georgia
+germany
+ghana
+greece
+grenada
+guatemala
+guinea bissau
+guyana
+haiti
+honduras
 hungary
+iceland
+india
+indonesia
+iran
+iraq
+ireland
+israel
+italy
+ivory coast
+jamaica
+japan
+jordan
+kazakhstan
+kenya
+kiribati
+kosovo
+kuwait
+kyrgyzstan
+laos
+latvia
+lebanon
+lesotho
+liberia
+libya
+lichtenstein
+lithuania
+luxembourg
+madagascar
+malawi
+malaysia
+maldives
+mali
+malta
+marshall islands
+mauritania
+mauritius
+mexico
+micronesia
+moldova
+monaco
+mongolia
+montenegro
+morocco
+mozambique
+myanmar
+namibia
+nauru
+nepal
+new zealand
+nicaragua
+niger
+nigeria
+north korea
+north macedonia
+norway
+oman
+pakistan
+palau
+palestine
+panama
+papua new guinea
+paraguay
+peru
+philippines
+poland
+portugal
+qatar
+republic of the congo
+romania
+russia
+rwanda
+saint kitts and nevis
+saint lucia
+saint vincent and the grenadines
+samoa
+san marino
+sao tome and pincipe
+saudi arabia
+senegal
 serbia
+seychelles
+singapore
 slovakia
 slovenia
-austria
-ukraine
-greece
-turkey
-north macedonia
-montenegro
-croatia
-albania
-bosnia and herzegovina
-romania
-moldova
-azerbaijan
-georgia
-armenia
-jordan
-palestine
-israel
-lebanon
-syria
-yemen
-oman
-saudi arabia
-bahrain
-the united arab emirates
-qatar
-kuwait
-iraq
-iran
-sri lanka
-pakistan
-afghanistan
-india
-nepal
-bhutan
-china
-taiwan
-philippines
-vietnam
-cambodia
-laos
-malaysia
-singapore
-indonesia
-papua new guinea
-brunei
-east timor
-australia
-new zealand
-north korea
-south korea
-myanmar
-thailand
-bangladesh
-mongolia
-kazakhstan
-kyrgyzstan
-turkmenistan
-tajikistan
-uzbekistan
-tonga
-micronesia
 solomon islands
-samoa
-marshall islands
-tuvalu
-kosovo
-vanuatu
-kiribati
-fiji
-japan
-palau
-egypt
-libya
-algeria
-morocco
-sudan
-south sudan
-chad
-mauritania
-tunisia
-cyprus
-malta
-ghana
-togo
-benin
-ivory coast
-eithopia
-djibouti
-eritrea
 somalia
-kenya
-tanzania
-liberia
-zambia
-mozambique
-zimbabwe
-angola
-botswana
 south africa
-lesotho
-eswatini
-guinea bissau
-burundi
-rwanda
-malawi
-uganda
-democratic republic of the congo
-republic of the congo
-central african republic
-gabon
-equatorial guinea
-cameroon
-mali
-mauritius
-comoros
-maldives
-namibia
-sao tome and pincipe
-nauru
-seychelles
-madagascar
-nigeria
-niger
+south korea
+south sudan
+spain
+sri lanka
+sudan
+suriname
+sweden
+switzerland
+syria
+taiwan
+tajikistan
+tanzania
+thailand
 the gambia
-senegal
-burkina faso
-cabo verde
+the netherlands
+the united arab emirates
+the united states of america
+togo
+tonga
+trinidad and tobago
+tunisia
+turkey
+turkmenistan
+tuvalu
+uganda
+ukraine
+united kingdom
+uruguay
+uzbekistan
+vanuatu
+vatican city
+venzuela
+vietnam
+yemen
+zambia
+zimbabwe
