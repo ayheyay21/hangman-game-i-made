@@ -16,168 +16,168 @@ def word_extractor(number):
     word = random.choice(wordlist).lower()
     return word, len(optionslist)
 
-concheck = True
-while concheck == True:
-    os.system('cls')
-    print("_________________________________________________________________________")
-    print("Enter 1 for Common English Words")
-    print("_________________________________________________________________________")
-    print("Enter 2 for Advanced English words")
-    print("_________________________________________________________________________")
-    print("Enter 3 for Video Games")
-    print("_________________________________________________________________________")
-    hangchoice = int(input(">"))
-    x, num_of_options = word_extractor(hangchoice)
-    if hangchoice <= num_of_options and hangchoice > 0:
-        word, y = word_extractor(hangchoice)
-    else:
+def main():
+    continuechk = True
+    while continuechk == True:
+        os.system('cls')
         print("_________________________________________________________________________")
-        tchoice = input("Enter a valid number")
+        print("Enter 1 for Common English Words")
         print("_________________________________________________________________________")
-        break
+        print("Enter 2 for Advanced English words")
+        print("_________________________________________________________________________")
+        print("Enter 3 for Video Games")
+        print("_________________________________________________________________________")
+        hangchoice = int(input(">"))
+        x, num_of_options = word_extractor(hangchoice)
+        if hangchoice <= num_of_options and hangchoice > 0:
+            word, y = word_extractor(hangchoice)
+        else:
+            print("_________________________________________________________________________")
+            tchoice = input("Enter a valid number")
+            print("_________________________________________________________________________")
+            break
 
-    wordarr = [None] * (len(word))
-    blankarr = [None] * (len(word))
-    blankarr1 = [None] * (len(word))
-    blank1 = '-' * (len(word))
-    blank = blank1
+        wordarr = [None] * (len(word))
+        blankarr = [None] * (len(word))
+        blankarr1 = [None] * (len(word))
+        blank1 = '-' * (len(word))
+        blank = blank1
 
-    chance6 = '''
-                                        ______
-                                       |      |
-                                              |
-                                              |
-                                              |
-                                      ---------
+        chance6 = '''
+                                            ______
+                                           |      |
+                                                  |
+                                                  |
+                                                  |
+                                          ---------
 
-                            '''
+                                '''
 
-    chance5 = '''
-                                        ______
-                                       |      |
-                                       O      |
-                                              |
-                                              |
-                                      ---------
+        chance5 = '''
+                                            ______
+                                           |      |
+                                           O      |
+                                                  |
+                                                  |
+                                          ---------
 
-                            '''
-    chance4 = '''
-                                        ______
-                                       |      |
-                                       O      |
-                                       |      |
-                                              |
-                                      ---------
+                                '''
+        chance4 = '''
+                                            ______
+                                           |      |
+                                           O      |
+                                           |      |
+                                                  |
+                                          ---------
 
-                            '''
-    chance3 = '''
-                                        ______
-                                       |      |
-                                       O      |
-                                      /|      |
-                                              |
-                                      ---------
+                                '''
+        chance3 = '''
+                                            ______
+                                           |      |
+                                           O      |
+                                          /|      |
+                                                  |
+                                          ---------
 
-                            '''
-    chance2 = '''
-                                        ______
-                                       |      |
-                                       O      |
-                                      /|\     |
-                                              |
-                                      ---------
+                                '''
+        chance2 = '''
+                                            ______
+                                           |      |
+                                           O      |
+                                          /|\     |
+                                                  |
+                                          ---------
 
-                            '''
-    chance1 = '''
-                                        ______
-                                       |      |
-                                       O      |
-                                      /|\     |
-                                      /       |
-                                      ---------
+                                '''
+        chance1 = '''
+                                            ______
+                                           |      |
+                                           O      |
+                                          /|\     |
+                                          /       |
+                                          ---------
 
-                            '''
-    chance0 = '''
-                                        ______
-                                       |      |
-                                       O      |
-                                      /|\     |
-                                      / \     |
-                                      ---------
+                                '''
+        chance0 = '''
+                                            ______
+                                           |      |
+                                           O      |
+                                          /|\     |
+                                          / \     |
+                                          ---------
 
-                            '''
-    chance = [chance0, chance1, chance2, chance3, chance4, chance5, chance6]
+                                '''
+        chance = [chance0, chance1, chance2, chance3, chance4, chance5, chance6]
 
-    for x in range(0, (len(word))):
-        blankarr[x] = blank[x]
-    for x in range(0, (len(word))):
-        wordarr[x] = word[x]
+        for x in range(0, (len(word))):
+            blankarr[x] = blank[x]
+        for x in range(0, (len(word))):
+            wordarr[x] = word[x]
 
-    repeated = [None]
-    repeated.remove(None)
+        repeated = [None]
+        repeated.remove(None)
 
-    p = 0
-    for letter in word:
-        if letter == ' ':
-            blankarr[p] = letter
-        p = p + 1
+        p = 0
+        for letter in word:
+            if letter == ' ':
+                blankarr[p] = letter
+            p = p + 1
 
-    completion = False
-    chances = 6
-    while ((chances > 0) and (completion == False)):
-        
-        blanknonarr = ''
-        for z in range(0, len(blankarr)):
-            blanknonarr = blanknonarr + blankarr[z]
-        
-        print(f'({blanknonarr})')
-        guess = input("Guess a letter: ")
-        rep = False
-        if guess not in repeated:
-            for g in range(0, (len(word))):
-                blankarr1[g] = blankarr[g]
-            y = 0
-            for letter in word:
-                if letter == guess:
-                    blankarr[y] = letter
-                y = y + 1
-            if blankarr == wordarr:
-                completion = True
-            if blankarr1 == blankarr:
-                chances = chances - 1
-                os.system('cls')
-                print("INCORRECT")
+        completion = False
+        chances = 6
+        while ((chances > 0) and (completion == False)):
+
+            blanknonarr = ''
+            for z in range(0, len(blankarr)):
+                blanknonarr = blanknonarr + blankarr[z]
+
+            print(f'({blanknonarr})')
+            guess = input("Guess a letter: ")
+            rep = False
+            if guess not in repeated:
+                for g in range(0, (len(word))):
+                    blankarr1[g] = blankarr[g]
+                y = 0
+                for letter in word:
+                    if letter == guess:
+                        blankarr[y] = letter
+                    y = y + 1
+                if blankarr == wordarr:
+                    completion = True
+                if blankarr1 == blankarr:
+                    chances = chances - 1
+                    os.system('cls')
+                    print("INCORRECT")
+                else:
+                    os.system('cls')
+                    print("CORRECT")
+
+                repeated.append(guess)
             else:
                 os.system('cls')
-                print("CORRECT")
-                
+                print("LETTER ALREADY ATTEMPTED")
 
-            repeated.append(guess)
-        else:
-            os.system('cls')
-            print("LETTER ALREADY ATTEMPTED")
+            print(f'Attempted letters: {repeated}')
+            print(chance[chances])
 
-        print(f'Attempted letters: {repeated}')
-        print(chance[chances])
-          
+        os.system('cls')
+        if chances == 0 and completion == False:
+            print("YOU COULDNT GUESS THE WORD")
+            print(chance[0])
+        elif chances > 0 and completion == True:
+            print("CONGRATULATIONS ON GUESSING THE WORD!!!!")
+            print(chance[chances])
+        print("THE WORD WAS:")
+        print(f'[{word}]')
 
-    os.system('cls')
-    if chances == 0 and completion == False:
-        print("YOU COULDNT GUESS THE WORD")
-        print(chance[0])
-    elif chances > 0 and completion == True:
-        print("CONGRATULATIONS ON GUESSING THE WORD!!!!")
-        print(chance[chances])
-    print("THE WORD WAS:")
-    print(f'[{word}]')
+        okchec = input("Do you want to try again? type no if false: ")
+        if okchec == 'no':
+            continuechk = False
 
-    okchec = input("Do you want to try again? type no if false: ")
-    if okchec == 'no':
-        concheck = False
+main()
 
 # List of known issues and possible improvements
 # 1- It takes any single or multiple characters as a possible input
 # 3- Can use direct user keyboard input to register a letter rather than pressing enter
 # 4- Should make a function to automatically insert new words into files
 # 5- Could possibly encrypt and decrypt files
-# 6- Add a main function
