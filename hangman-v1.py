@@ -3,70 +3,6 @@ import os
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-def duplicate_checker(filename):
-    def remove_line(file_name, line_to_remove):
-        with open(file_name, 'r') as file:
-            lines = file.readlines()
-        lines = [line for line in lines if line.strip() != line_to_remove]
-        with open(file_name, 'w') as file:
-            file.writelines(lines)
-        with open(file_name, 'a') as file:
-            file.write(f"\n{line_to_remove}")
-        with open(file_name, 'r') as file:
-            lines = file.readlines()
-        lines = [line for line in lines if line.strip() != '']
-        with open(file_name, 'w') as file:
-            file.writelines(lines)
-
-    os.system('cls')
-    file_path = os.path.join(script_dir, 'database', filename)
-    with open(file_path) as f:
-        wordlist = []
-        for line in f:
-            wordlist.append(line.strip())
-
-    duplicates = []
-    duplicatesindex = []
-    dupl = []
-
-    count = 1
-    for item in wordlist:
-        if item in dupl:
-            duplicates.append(item)
-            duplicatesindex.append(count)
-        dupl.append(item)
-        count += 1
-
-    if duplicates == []:
-        print("___________________________________________________")
-        print(f"There are no duplicates in [{file_path}]")
-        print("___________________________________________________")
-        input("Press enter to continue")
-        os.system('cls')
-    else:
-        print("______________________________________________________________")
-        print(f"Duplicates found in [{file_path}]:\n> {duplicates}\n Line Numbers: {duplicatesindex}")
-        print("______________________________________________________________")
-        remove = input("Remove them? (y/n)\n>")
-        os.system('cls')
-        if remove == 'y':
-            for item in duplicates:
-                remove_line(file_path, item)
-            print("______________________________________________________________")
-            print(f"[SUCCESS] Duplicates have been removed from [{file_path}]")
-            print("______________________________________________________________")
-            input("Press enter to continue")
-
-def configurator():
-    os.system('cls')
-    print("____________________________________")
-    print("1: Check data files for duplicates")
-    print("____________________________________")
-    config = int(input(">"))
-    if config == 1:
-        filename = input("Enter the name of the file in the database folder: ")
-        duplicate_checker(filename)
-
 def word_extractor(number):
     if number != 0:
         option = number - 1
@@ -80,29 +16,24 @@ def word_extractor(number):
                 wordlist.append(line.strip())
         word = random.choice(wordlist).lower()
         return word, len(optionslist)
-    elif number == 0:
-        configurator()
-        return 'complete', -1
-
 
 def main():
     continuechk = True
     while continuechk == True:
         os.system('cls')
-        print("_________________________________________________________________________")
-        print("0: Configurations")
+        print("_______________________________________")
         print("1: Common English Words")
         print("2: Advanced English words")
         print("3: Video Games")
-        print("_________________________________________________________________________")
+        print("_______________________________________")
         hangchoice = int(input(">"))
         x, num_of_options = word_extractor(hangchoice)
         if hangchoice <= num_of_options and hangchoice > 0:
             word, y = word_extractor(hangchoice)
         else:
-            print("_________________________________________________________________________")
+            print("____________________________________")
             tchoice = input("Enter a valid number")
-            print("_________________________________________________________________________")
+            print("____________________________________")
             break
 
         wordarr = [None] * (len(word))
