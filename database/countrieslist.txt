@@ -107,6 +107,9 @@ australia
 new zealand
 north korea
 south korea
+myanmar
+thailand
+bangladesh
 mongolia
 kazakhstan
 kyrgyzstan
@@ -122,3 +125,48 @@ kiribati
 fiji
 japan
 palau
+egypt
+libya
+algeria
+morocco
+sudan
+south sudan
+chad
+mauritania
+tunisia
+cyprus
+malta
+ghana
+togo
+benin
+ivory coast
+eithopia
+djibouti
+eritrea
+somalia
+kenya
+tanzania
+zambia
+mozambique
+zimbabwe
+angola
+botswana
+south africa
+lesotho
+eswatini
+burundi
+rwanda
+malawi
+uganda
+democratic republic of the congo
+republic of the congo
+central african republic
+gabon
+equatorial guinea
+cameroon
+mali
+mauritius
+comoros
+maldives
+seychelles
+madagascar
