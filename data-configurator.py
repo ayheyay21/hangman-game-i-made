@@ -3,7 +3,23 @@ import random
 import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
+def file_sorter(filename):
+    file_path = os.path.join(script_dir, 'database', filename)
+    with open(file_path, 'r') as file:
+        words = file.readlines()
+    words = [word.strip() for word in words]
+    words.sort()
+    with open(file_path, 'w') as file:
+        for word in words:
+            file.write(word + '\n')
+    os.system('cls')
+    print("______________________________________________________________")
+    print(f"[SUCCESS]: [{file_path}] has been successfully sorted")
+    print("______________________________________________________________")
+    input("Press enter to continue")
+
 def duplicate_checker(filename):
+
     def remove_line(file_name, line_to_remove):
         with open(file_name, 'r') as file:
             lines = file.readlines()
@@ -26,14 +42,14 @@ def duplicate_checker(filename):
             wordlist.append(line.strip())
 
     duplicates = []
-    duplicatesindex = []
+    duplicates_index = []
     dupl = []
 
     count = 1
     for item in wordlist:
         if item in dupl:
             duplicates.append(item)
-            duplicatesindex.append(count)
+            duplicates_index.append(count)
         dupl.append(item)
         count += 1
 
@@ -45,7 +61,7 @@ def duplicate_checker(filename):
         os.system('cls')
     else:
         print("______________________________________________________________")
-        print(f"Duplicates found in [{file_path}]:\n> {duplicates}\n Line Numbers: {duplicatesindex}")
+        print(f"Duplicates found in [{file_path}]:\n> {duplicates}\n Line Numbers: {duplicates_index}")
         print("______________________________________________________________")
         remove = input("Remove them? (y/n)\n>")
         os.system('cls')
@@ -61,10 +77,14 @@ def configurator():
     os.system('cls')
     print("____________________________________")
     print("1: Check data files for duplicates")
+    print("2: Sorting the data files")
     print("____________________________________")
     config = int(input(">"))
     if config == 1:
-        filename = input("Enter the name of the file in the database folder: ")
+        filename = input("Enter the name of the file located in the database folder: ")
         duplicate_checker(filename)
+    elif config == 2:
+        filename = input("Enter the name of the file located in the database folder: ")
+        file_sorter(filename)
 
 configurator()
