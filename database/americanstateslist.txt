@@ -1,52 +1,50 @@
-washington
-oregon
-hawaii
-alaska
-california
-new mexico
-nevada
-arizona
-new mexico
-texas
-colorado
-utah
-wyoming
-idaho
-montana
-nebraska
-wyoming
-north dakota
-south dakota
-minnesota
-wisconsin
-michigan
-ohio
-illinois
-indiana
-iowa
-kansas
-arkansas
-tennessee
-mississippi
-missouri
-louisiana
-alabama
-georgia
-florida
-south carolina
-north carolina
-maryland
-pennsylvania
-new jersey
-new york
-new hampshire
-vermont
-maine
-massachusetts
 connecticut
+texas
+vermont
+oregon
+ohio
 rhode island
-kentucky
-oklahoma
+colorado
+mississippi
+tennessee
+massachusetts
+maryland
 virginia
+kentucky
+utah
+louisiana
 west virginia
 delaware
+pennsylvania
+oklahoma
+washington
+hawaii
+new hampshire
+arizona
+nevada
+new mexico
+maine
+florida
+arkansas
+wyoming
+alaska
+iowa
+georgia
+indiana
+wisconsin
+michigan
+north dakota
+nebraska
+new york
+missouri
+idaho
+montana
+minnesota
+illinois
+california
+north carolina
+alabama
+kansas
+south carolina
+new jersey
+south dakota
