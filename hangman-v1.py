@@ -3,24 +3,35 @@ import os
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-def word_extractor(number):
-    option = number - 1
-    optionslist = ['wordlist.txt', 'unavailable.txt', 'videogameslist.txt']
-    filename = optionslist[option]
+def configurator():
     os.system('cls')
-    file_path = os.path.join(script_dir, 'database', filename)
-    with open(file_path) as f:
-        wordlist = []
-        for line in f:
-            wordlist.append(line.strip())
-    word = random.choice(wordlist).lower()
-    return word, len(optionslist)
+    print("____________________________________")
+    print("1: Check data files for duplicates")
+    print("____________________________________")
+
+def word_extractor(number):
+    if number != 0:
+        option = number - 1
+        optionslist = ['wordlist.txt', 'unavailable.txt', 'videogameslist.txt']
+        filename = optionslist[option]
+        os.system('cls')
+        file_path = os.path.join(script_dir, 'database', filename)
+        with open(file_path) as f:
+            wordlist = []
+            for line in f:
+                wordlist.append(line.strip())
+        word = random.choice(wordlist).lower()
+        return word, len(optionslist)
+    elif number == 0:
+        configurator()
+
 
 def main():
     continuechk = True
     while continuechk == True:
         os.system('cls')
         print("_________________________________________________________________________")
+        print("0: Configurations")
         print("1: Common English Words")
         print("2: Advanced English words")
         print("3: Video Games")
