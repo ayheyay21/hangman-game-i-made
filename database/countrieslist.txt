@@ -66,3 +66,59 @@ turkey
 north macedonia
 croatia
 albania
+bosnia and herzegovina
+romania
+moldova
+azerbaijan
+georgia
+armenia
+jordan
+palestine
+israel
+lebanon
+syria
+yemen
+oman
+saudi arabia
+bahrain
+the united arab emirates
+qatar
+kuwait
+iraq
+iran
+pakistan
+afghanistan
+india
+nepal
+bhutan
+china
+taiwan
+philippines
+vietnam
+cambodia
+laos
+malaysia
+singapore
+indonesia
+papua new guinea
+brunei
+east timor
+australia
+new zealand
+north korea
+south korea
+mongolia
+kazakhstan
+kyrgyzstan
+turkmenistan
+tajikistan
+uzbekistan
+micronesia
+solomon islands
+marshall islands
+tuvalu
+kosovo
+kiribati
+fiji
+japan
+palau
