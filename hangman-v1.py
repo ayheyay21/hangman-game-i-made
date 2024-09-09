@@ -3,11 +3,45 @@ import os
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
+def duplicate_checker(filename):
+    os.system('cls')
+    file_path = os.path.join(script_dir, 'database', filename)
+    with open(file_path) as f:
+        wordlist = []
+        for line in f:
+            wordlist.append(line.strip())
+    duplicates = []
+    duplicatesindex = []
+    dupl = []
+    count = 1
+    for item in wordlist:
+        if item in dupl:
+            duplicates.append(item)
+            duplicatesindex.append(count)
+        dupl.append(item)
+        count += 1
+    if duplicates == []:
+        print("___________________________________________________")
+        print(f"There are no duplicates in [{file_path}]")
+        print("___________________________________________________")
+        input("Press enter to continue")
+        os.system('cls')
+    else:
+        print("______________________________________________________________")
+        print(f"Duplicates found in [{file_path}]:\n> {duplicates}\n Line Numbers: {duplicatesindex}")
+        print("______________________________________________________________")
+        remove = input("Remove them? (y/n)\n>")
+        os.system('cls')
+
 def configurator():
     os.system('cls')
     print("____________________________________")
     print("1: Check data files for duplicates")
     print("____________________________________")
+    config = int(input(">"))
+    if config == 1:
+        filename = input("Enter the name of the file in the database folder: ")
+        duplicate_checker(filename)
 
 def word_extractor(number):
     if number != 0:
@@ -24,6 +58,7 @@ def word_extractor(number):
         return word, len(optionslist)
     elif number == 0:
         configurator()
+        return 'complete', -1
 
 
 def main():
