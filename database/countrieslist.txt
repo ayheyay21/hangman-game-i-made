@@ -48,6 +48,7 @@ vatican city
 switzerland
 belgium
 the netherlands
+belarus
 germany
 poland
 lichtenstein
@@ -127,6 +128,7 @@ uzbekistan
 tonga
 micronesia
 solomon islands
+samoa
 marshall islands
 tuvalu
 kosovo
@@ -156,6 +158,7 @@ eritrea
 somalia
 kenya
 tanzania
+liberia
 zambia
 mozambique
 zimbabwe
