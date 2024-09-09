@@ -3,7 +3,7 @@ import random
 import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-def file_sorter(filename):
+def file_sorter(filename, tag):
     file_path = os.path.join(script_dir, 'database', filename)
     with open(file_path, 'r') as file:
         words = file.readlines()
@@ -13,10 +13,14 @@ def file_sorter(filename):
         for word in words:
             file.write(word + '\n')
     os.system('cls')
-    print("______________________________________________________________")
-    print(f"[SUCCESS]: [{file_path}] has been successfully sorted")
-    print("______________________________________________________________")
-    input("Press enter to continue")
+    if tag == 1:
+        print("______________________________________________________________")
+        print(f"[SUCCESS]: [{file_path}] has been successfully sorted")
+        print("______________________________________________________________")
+        input("Press enter to continue")
+        return -1
+    elif tag == 2:
+        return -2
 
 def duplicate_checker(filename):
 
@@ -85,6 +89,6 @@ def configurator():
         duplicate_checker(filename)
     elif config == 2:
         filename = input("Enter the name of the file located in the database folder: ")
-        file_sorter(filename)
+        file_sorter(filename, 1)
 
 configurator()
