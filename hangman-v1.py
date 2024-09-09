@@ -21,11 +21,9 @@ def main():
     while continuechk == True:
         os.system('cls')
         print("_________________________________________________________________________")
-        print("Enter 1 for Common English Words")
-        print("_________________________________________________________________________")
-        print("Enter 2 for Advanced English words")
-        print("_________________________________________________________________________")
-        print("Enter 3 for Video Games")
+        print("1: Common English Words")
+        print("2: Advanced English words")
+        print("3: Video Games")
         print("_________________________________________________________________________")
         hangchoice = int(input(">"))
         x, num_of_options = word_extractor(hangchoice)
@@ -132,30 +130,35 @@ def main():
                 blanknonarr = blanknonarr + blankarr[z]
 
             print(f'({blanknonarr})')
-            guess = input("Guess a letter: ")
-            rep = False
-            if guess not in repeated:
-                for g in range(0, (len(word))):
-                    blankarr1[g] = blankarr[g]
-                y = 0
-                for letter in word:
-                    if letter == guess:
-                        blankarr[y] = letter
-                    y = y + 1
-                if blankarr == wordarr:
-                    completion = True
-                if blankarr1 == blankarr:
-                    chances = chances - 1
-                    os.system('cls')
-                    print("INCORRECT")
+            guess1 = input("Guess a letter: ")
+            guess = guess1.lower()
+            if len(guess) == 1 and guess in 'abcdefghijklmnopqrstuvwxyz':
+                rep = False
+                if guess not in repeated:
+                    for g in range(0, (len(word))):
+                        blankarr1[g] = blankarr[g]
+                    y = 0
+                    for letter in word:
+                        if letter == guess:
+                            blankarr[y] = letter
+                        y = y + 1
+                    if blankarr == wordarr:
+                        completion = True
+                    if blankarr1 == blankarr:
+                        chances = chances - 1
+                        os.system('cls')
+                        print("INCORRECT")
+                    else:
+                        os.system('cls')
+                        print("CORRECT")
+
+                    repeated.append(guess)
                 else:
                     os.system('cls')
-                    print("CORRECT")
-
-                repeated.append(guess)
+                    print("LETTER ALREADY ATTEMPTED")
             else:
                 os.system('cls')
-                print("LETTER ALREADY ATTEMPTED")
+                print(f"[{guess}] is an invalid input. Single letters only")
 
             print(f'Attempted letters: {repeated}')
             print(chance[chances])
@@ -177,7 +180,6 @@ def main():
 main()
 
 # List of known issues and possible improvements
-# 1- It takes any single or multiple characters as a possible input
 # 3- Can use direct user keyboard input to register a letter rather than pressing enter
 # 4- Should make a function to automatically insert new words into files
 # 5- Could possibly encrypt and decrypt files
