@@ -1,13 +1,11 @@
-import english_words
 import random
 import os
-# testing desktop gits
-# testing desktop gits 2
-# testing desktop gits 3
+
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 concheck = True
 while concheck == True:
+    os.system('cls')
     print("_________________________________________________________________________")
     print("Enter 1 for Common English Words")
     print("_________________________________________________________________________")
@@ -18,6 +16,7 @@ while concheck == True:
     hangchoice = int(input(">"))
     # Common English Words
     if hangchoice == 1:
+        os.system('cls')
         # another attempt at hangman
         file_path = os.path.join(script_dir, 'database', 'wordlist.txt')
 
@@ -30,6 +29,7 @@ while concheck == True:
 
     # Advanced English Words
     elif hangchoice == 2:
+        os.system('cls')
         # another attempt at hangman
 
         wordset = list(english_words.english_words_lower_alpha_set)
@@ -38,7 +38,7 @@ while concheck == True:
         word = random.choice(wordset)
     #Video games hangman
     elif hangchoice == 3:
-
+        os.system('cls')
         file_path = os.path.join(script_dir, 'database', 'videogameslist.txt')
 
         with open(file_path) as f:
@@ -61,6 +61,16 @@ while concheck == True:
     blankarr1 = [None] * (len(word))
     blank1 = '-' * (len(word))
     blank = blank1
+
+    chance6 = '''
+                                        ______
+                                       |      |
+                                              |
+                                              |
+                                              |
+                                      ---------
+
+                            '''
 
     chance5 = '''
                                         ______
@@ -116,7 +126,7 @@ while concheck == True:
                                       ---------
 
                             '''
-    chance = [chance0, chance1, chance2, chance3, chance4, chance5]
+    chance = [chance0, chance1, chance2, chance3, chance4, chance5, chance6]
 
     for x in range(0, (len(word))):
         blankarr[x] = blank[x]
@@ -135,10 +145,11 @@ while concheck == True:
     completion = False
     chances = 6
     while ((chances > 0) and (completion == False)):
+        
         blanknonarr = ''
         for z in range(0, len(blankarr)):
             blanknonarr = blanknonarr + blankarr[z]
-        print(f'attempted letters: {repeated}')
+        
         print(f'({blanknonarr})')
         guess = input("Guess a letter: ")
         rep = False
@@ -154,31 +165,39 @@ while concheck == True:
                 completion = True
             if blankarr1 == blankarr:
                 chances = chances - 1
+                os.system('cls')
                 print("INCORRECT")
-                print(f'{chances} chances remaining')
-                if chances == 5:
-                    print(chance[5])
-                elif chances == 4:
-                    print(chance[4])
-                elif chances == 3:
-                    print(chance[3])
-                elif chances == 2:
-                    print(chance[2])
-                elif chances == 1:
-                    print(chance[1])
-                elif chances == 0:
-                    print(chance[0])
+            else:
+                os.system('cls')
+                print("CORRECT")
+                
+
             repeated.append(guess)
         else:
+            os.system('cls')
             print("LETTER ALREADY ATTEMPTED")
 
+        print(f'Attempted letters: {repeated}')
+        print(chance[chances])
+          
+
+    os.system('cls')
     if chances == 0 and completion == False:
         print("YOU COULDNT GUESS THE WORD")
+        print(chance[0])
     elif chances > 0 and completion == True:
         print("CONGRATULATIONS ON GUESSING THE WORD!!!!")
+        print(chance[chances])
     print("THE WORD WAS:")
     print(f'[{word}]')
 
     okchec = input("Do you want to try again? type no if false: ")
     if okchec == 'no':
         concheck = False
+
+# List of known issues and possible improvements
+# 1- It takes any single or multiple characters as a possible input
+# 2- Lacks functions for retrieving data from the data files
+# 3- Can use direct user keyboard input to register a letter rather than pressing enter
+# 4- Should make a function to automatically insert new words into files
+# 5- Could possibly encrypt and decrypt files
