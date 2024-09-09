@@ -4,15 +4,31 @@ import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 def duplicate_checker(filename):
+    def remove_line(file_name, line_to_remove):
+        with open(file_name, 'r') as file:
+            lines = file.readlines()
+        lines = [line for line in lines if line.strip() != line_to_remove]
+        with open(file_name, 'w') as file:
+            file.writelines(lines)
+        with open(file_name, 'a') as file:
+            file.write(f"\n{line_to_remove}")
+        with open(file_name, 'r') as file:
+            lines = file.readlines()
+        lines = [line for line in lines if line.strip() != '']
+        with open(file_name, 'w') as file:
+            file.writelines(lines)
+
     os.system('cls')
     file_path = os.path.join(script_dir, 'database', filename)
     with open(file_path) as f:
         wordlist = []
         for line in f:
             wordlist.append(line.strip())
+
     duplicates = []
     duplicatesindex = []
     dupl = []
+
     count = 1
     for item in wordlist:
         if item in dupl:
@@ -20,6 +36,7 @@ def duplicate_checker(filename):
             duplicatesindex.append(count)
         dupl.append(item)
         count += 1
+
     if duplicates == []:
         print("___________________________________________________")
         print(f"There are no duplicates in [{file_path}]")
@@ -32,6 +49,13 @@ def duplicate_checker(filename):
         print("______________________________________________________________")
         remove = input("Remove them? (y/n)\n>")
         os.system('cls')
+        if remove == 'y':
+            for item in duplicates:
+                remove_line(file_path, item)
+            print("______________________________________________________________")
+            print(f"[SUCCESS] Duplicates have been removed from [{file_path}]")
+            print("______________________________________________________________")
+            input("Press enter to continue")
 
 def configurator():
     os.system('cls')
