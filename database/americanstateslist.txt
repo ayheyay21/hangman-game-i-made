@@ -47,3 +47,6 @@ connecticut
 rhode island
 kentucky
 oklahoma
+virginia
+west virginia
+delaware
