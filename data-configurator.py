@@ -41,6 +41,15 @@ def remove_line(filename, line_to_remove, tag):
         lines = [line for line in lines if line.strip() != '']
         with open(file_path, 'w') as file:
             file.writelines(lines)
+    
+    elif tag == 4:
+        with open(file_path, 'r') as file:
+            content = file.read()
+        content = content.rstrip('\n')
+        with open(file_path, 'w') as file:
+            file.write(content)
+
+    
 
 def file_shuffler(filename, tag):
     os.system('cls')
@@ -60,6 +69,7 @@ def file_shuffler(filename, tag):
         for word in shuffle:
             file.write(word + '\n')
     remove_line(filename, '', 3)
+    remove_line(filename, '', 4)
     if tag == 1:
         print("______________________________________________________________")
         print(f"[SUCCESS]: [{file_path}] has been successfully shuffled")
@@ -79,6 +89,7 @@ def file_sorter(filename, tag):
         for word in words:
             file.write(word + '\n')
     remove_line(filename, '', 3)
+    remove_line(filename, '', 4)
     os.system('cls')
     if tag == 1:
         print("______________________________________________________________")
