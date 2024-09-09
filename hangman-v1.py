@@ -3,6 +3,19 @@ import os
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
+def word_extractor(number):
+    option = number - 1
+    optionslist = ['wordlist.txt', 'unavailable.txt', 'videogameslist.txt']
+    filename = optionslist[option]
+    os.system('cls')
+    file_path = os.path.join(script_dir, 'database', filename)
+    with open(file_path) as f:
+        wordlist = []
+        for line in f:
+            wordlist.append(line.strip())
+    word = random.choice(wordlist).lower()
+    return word, len(optionslist)
+
 concheck = True
 while concheck == True:
     os.system('cls')
@@ -14,42 +27,9 @@ while concheck == True:
     print("Enter 3 for Video Games")
     print("_________________________________________________________________________")
     hangchoice = int(input(">"))
-    # Common English Words
-    if hangchoice == 1:
-        os.system('cls')
-        # another attempt at hangman
-        file_path = os.path.join(script_dir, 'database', 'wordlist.txt')
-
-        with open(file_path) as f:
-            wordlist = []
-            for line in f:
-                wordlist.append(line.strip())
-
-        word = random.choice(wordlist).lower()
-
-    # Advanced English Words
-    elif hangchoice == 2:
-        os.system('cls')
-        # another attempt at hangman
-
-        wordset = list(english_words.english_words_lower_alpha_set)
-        word = random.choice(wordset)
-
-        word = random.choice(wordset)
-    #Video games hangman
-    elif hangchoice == 3:
-        os.system('cls')
-        file_path = os.path.join(script_dir, 'database', 'videogameslist.txt')
-
-        with open(file_path) as f:
-            wordlist = []
-            for line in f:
-                wordlist.append(line.strip())
-
-        word = random.choice(wordlist).lower()
-
-
-    # End of hangman
+    x, num_of_options = word_extractor(hangchoice)
+    if hangchoice <= num_of_options and hangchoice > 0:
+        word, y = word_extractor(hangchoice)
     else:
         print("_________________________________________________________________________")
         tchoice = input("Enter a valid number")
@@ -197,7 +177,7 @@ while concheck == True:
 
 # List of known issues and possible improvements
 # 1- It takes any single or multiple characters as a possible input
-# 2- Lacks functions for retrieving data from the data files
 # 3- Can use direct user keyboard input to register a letter rather than pressing enter
 # 4- Should make a function to automatically insert new words into files
 # 5- Could possibly encrypt and decrypt files
+# 6- Add a main function
