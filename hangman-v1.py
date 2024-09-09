@@ -4,35 +4,36 @@ import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 def word_extractor(number):
-    option = number - 1
-    optionslist = ['wordlist.txt', 'unavailable.txt', 'videogameslist.txt']
-    filename = optionslist[option]
-    os.system('cls')
-    file_path = os.path.join(script_dir, 'database', filename)
-    with open(file_path) as f:
-        wordlist = []
-        for line in f:
-            wordlist.append(line.strip())
-    word = random.choice(wordlist).lower()
-    return word, len(optionslist)
+    if number != 0:
+        option = number - 1
+        optionslist = ['wordlist.txt', 'unavailable.txt', 'videogameslist.txt']
+        filename = optionslist[option]
+        os.system('cls')
+        file_path = os.path.join(script_dir, 'database', filename)
+        with open(file_path) as f:
+            wordlist = []
+            for line in f:
+                wordlist.append(line.strip())
+        word = random.choice(wordlist).lower()
+        return word, len(optionslist)
 
 def main():
     continuechk = True
     while continuechk == True:
         os.system('cls')
-        print("_________________________________________________________________________")
+        print("_______________________________________")
         print("1: Common English Words")
         print("2: Advanced English words")
         print("3: Video Games")
-        print("_________________________________________________________________________")
+        print("_______________________________________")
         hangchoice = int(input(">"))
         x, num_of_options = word_extractor(hangchoice)
         if hangchoice <= num_of_options and hangchoice > 0:
             word, y = word_extractor(hangchoice)
         else:
-            print("_________________________________________________________________________")
+            print("____________________________________")
             tchoice = input("Enter a valid number")
-            print("_________________________________________________________________________")
+            print("____________________________________")
             break
 
         wordarr = [None] * (len(word))
