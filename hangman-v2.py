@@ -4,45 +4,52 @@ import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # function used a random word from a chose theme text file
-def word_extractor(number):
-    if number != 0:
-        option = number - 1
-        optionslist = ['wordlist.txt', 'carslist.txt', 'videogameslist.txt', 'countrieslist.txt',
-                       'movielist.txt', 'tvshowlist.txt', 'americanstateslist.txt']
-        filename = optionslist[option]
+def word_extractor(filename):
+    os.system('cls')
+    file_path = os.path.join(script_dir, 'database', filename)
+    with open(file_path) as f:
+        wordlist = []
+        for line in f:
+            wordlist.append(line.strip())
+    word = random.choice(wordlist).lower()
+    return word
+
+
+# function that automatically outputs the possible options
+def file_checker():
+    #function the retrieves the file names
+    def file_name_retriever():
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        target_folder = os.path.join(script_dir, 'database')
+        files = [f for f in os.listdir(target_folder) if os.path.isfile(os.path.join(target_folder, f))]
+        return files
+    file_names = file_name_retriever()
+    #removes the .txt from the end
+    options = [os.path.splitext(f)[0] if f.endswith('.txt') else f for f in file_names]
+    count = 0
+    print("______________________________________")
+    for item in options:
+        count += 1
+        print(f"{count}: {item.title()}")
+    print("______________________________________")
+    hangchoice = int(input(">"))
+    if hangchoice > 0 and hangchoice <= count:
+        selected_file = file_names[count-1]
+        return selected_file
+    else:
+        print("____________________________________")
+        tchoice = input("Invalid Input")
+        print("____________________________________")
         os.system('cls')
-        file_path = os.path.join(script_dir, 'database', filename)
-        with open(file_path) as f:
-            wordlist = []
-            for line in f:
-                wordlist.append(line.strip())
-        word = random.choice(wordlist).lower()
-        return word, len(optionslist)
 
 #the main hangman game
 def main():
     continuechk = True
     while continuechk == True:
         os.system('cls')
-        print("_______________________________________")
-        print("1: Common English Words")
-        print("2: Cars")
-        print("3: Video Games")
-        print("4: Countries")
-        print("5: Movies")
-        print("6: TV Shows")
-        print("7: American States")
-        print("_______________________________________")
-        hangchoice = int(input(">"))
+        option = file_checker()
         #sends choice to word_extractor and return a random word from chosen file
-        x, num_of_options = word_extractor(hangchoice)
-        if hangchoice <= num_of_options and hangchoice > 0:
-            word, y = word_extractor(hangchoice)
-        else:
-            print("____________________________________")
-            tchoice = input("Enter a valid number")
-            print("____________________________________")
-            break
+        word = word_extractor(option)
 
         wordarr = [None] * (len(word))
         blankarr = [None] * (len(word))
@@ -126,7 +133,7 @@ def main():
 
         repeated = [None]
         repeated.remove(None)
-        
+
         #used to add the punctuations and numbers to the blanks
         punct = [' ', "'", '"', '-', ':', ';', ',', '.', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
         p = 0
@@ -134,7 +141,7 @@ def main():
             if letter in punct:
                 blankarr[p] = letter
             p = p + 1
-        
+
         # the game begins here
         #the game runs until the user runs out of chances or completes the game
         completion = False
@@ -144,7 +151,7 @@ def main():
             blanknonarr = ''
             for z in range(0, len(blankarr)):
                 blanknonarr = blanknonarr + blankarr[z]
-            
+
             #adds spaces to the blanks output
             blank2 = ''
             for item in blanknonarr:
