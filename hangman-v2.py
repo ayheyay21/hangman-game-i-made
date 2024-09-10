@@ -14,7 +14,6 @@ def word_extractor(filename):
     word = random.choice(wordlist).lower()
     return word
 
-
 # function that automatically outputs the possible options
 def file_checker():
     #function the retrieves the file names
@@ -26,18 +25,22 @@ def file_checker():
     file_names = file_name_retriever()
     #removes the .txt from the end
     options = [os.path.splitext(f)[0] if f.endswith('.txt') else f for f in file_names]
-    
-    #replaces a dash in the file name with a space
+
+    # replaces a dash in the file name with a space
+    def dash_remover(word_in_options):
+        string1 = ''
+        for item in word_in_options:
+            if item == '-':
+                string1 = string1 + " "
+            else:
+                string1 = string1 + item
+        return string1
+
     f = 0
     for item in options:
-        if '-' in item:
-            string1 = ''
-            for x in item:
-                if x == '-':
-                    string1 = string1 + ' '
-                else:
-                    string1 = string1 + x
-            options[f] = string1
+        replacement = dash_remover(item)
+        options[f] = replacement
+        f += 1
 
     count = 0
     print("______________________________________")
@@ -47,7 +50,7 @@ def file_checker():
     print("______________________________________")
     hangchoice = int(input(">"))
     if hangchoice > 0 and hangchoice <= count:
-        selected_file = file_names[count-1]
+        selected_file = file_names[hangchoice-1]
         return selected_file
     else:
         print("____________________________________")
