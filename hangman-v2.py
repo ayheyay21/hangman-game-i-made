@@ -26,6 +26,19 @@ def file_checker():
     file_names = file_name_retriever()
     #removes the .txt from the end
     options = [os.path.splitext(f)[0] if f.endswith('.txt') else f for f in file_names]
+    
+    #replaces a dash in the file name with a space
+    f = 0
+    for item in options:
+        if '-' in item:
+            string1 = ''
+            for x in item:
+                if x == '-':
+                    string1 = string1 + ' '
+                else:
+                    string1 = string1 + x
+            options[f] = string1
+
     count = 0
     print("______________________________________")
     for item in options:
