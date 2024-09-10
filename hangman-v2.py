@@ -121,9 +121,16 @@ def main():
         repeated = [None]
         repeated.remove(None)
 
+        punct = [' ', "'", '"', '-', ':', ';', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
         p = 0
         for letter in word:
-            if letter == ' ':
+            if letter in punct:
+                blankarr[p] = letter
+            p = p + 1
+
+        p = 0
+        for letter in word:
+            if letter == "'":
                 blankarr[p] = letter
             p = p + 1
 
