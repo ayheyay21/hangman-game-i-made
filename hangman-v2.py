@@ -44,7 +44,9 @@ def main():
         wordarr = [None] * (len(word))
         blankarr = [None] * (len(word))
         blankarr1 = [None] * (len(word))
-        blank1 = '-' * (len(word))
+        blank2arr = []
+        blank1 = '_' * (len(word))
+
         blank = blank1
 
         chance6 = '''
@@ -113,6 +115,7 @@ def main():
                                 '''
         chance = [chance0, chance1, chance2, chance3, chance4, chance5, chance6]
 
+
         for x in range(0, (len(word))):
             blankarr[x] = blank[x]
         for x in range(0, (len(word))):
@@ -121,16 +124,10 @@ def main():
         repeated = [None]
         repeated.remove(None)
 
-        punct = [' ', "'", '"', '-', ':', ';', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
+        punct = [' ', "'", '"', '-', ':', ';', ',', '.', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
         p = 0
         for letter in word:
             if letter in punct:
-                blankarr[p] = letter
-            p = p + 1
-
-        p = 0
-        for letter in word:
-            if letter == "'":
                 blankarr[p] = letter
             p = p + 1
 
@@ -142,7 +139,18 @@ def main():
             for z in range(0, len(blankarr)):
                 blanknonarr = blanknonarr + blankarr[z]
 
-            print(f'({blanknonarr})')
+            blank2 = ''
+            for item in blanknonarr:
+                blank2 = blank2 + item
+                blank2 = blank2 + ' '
+            blank2arr = []
+            for item in blank2:
+                blank2arr.append(item)
+            blank3 = ''
+            for item in blank2arr:
+                blank3 = blank3 + item
+
+            print(f'({blank3})')
             guess1 = input("Guess a letter: ")
             guess = guess1.lower()
             if len(guess) == 1 and guess in 'abcdefghijklmnopqrstuvwxyz':
