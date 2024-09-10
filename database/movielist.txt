@@ -1,13 +1,15 @@
 avengers
-avengers age of ultron
-avengers infinity war
-avengers endgame
-iron man
-captain america civil war
-captain america winter soldier
+avengers: age of ultron
+avengers: infinity war
+avengers: endgame
+iron-man 1
+iron-man 2
+iron-man 3
+captain america: civil war
+captain america: winter soldier
 titanic
 the godfather
-schindlers list
+schindler's list
 the dark knight
 the shawshank redemption
 pulp fiction
@@ -22,24 +24,24 @@ logan
 the terminator
 the exorcist
 black panther
-black panther wakanda forever
-thor ragnarok
-the extraterrestial
-star wars return of the jedi
+black panther: wakanda forever
+thor: ragnarok
+the extra-terrestial
+star wars: return of the jedi
 arrival
 up
-spiderman into the spiderverse
+spider-man: into the spider-verse
 inglorious bastards
 la la land
 guardians of the galaxy
-blade runner
+blade runner 2079
 saving private ryan
 forrest gump
 point break
 spirited away
 ghostbusters
 gladiator
-the good the bad and the ugly
+the good, the bad, and the ugly
 the shining
 the lord of the rings
 interstellar
@@ -54,12 +56,12 @@ parasite
 jurassic park
 jurassic world
 back to the future
-mad max fury road
+mad max: fury road
 star wars
 goodfellas
 jaws
-star wars the empire strikes back
-star wars the last jedi
+star wars: the empire strikes back
+star wars: the last jedi
 king kong
 godzilla
 planet of the apes
@@ -88,7 +90,7 @@ fast and furious
 furiosa
 inside out
 sonic the hedgehog
-jurassic world rebirth
+jurassic world: rebirth
 hit man
 madame web
 despicable me
@@ -96,14 +98,14 @@ dune
 joker
 harry potter and the philosophers stone
 transformers
-star wars a new hope
+star wars: a new hope
 django unchained
 the dictator
-spiderman across the spiderverse
+spider-man: across the spider-verse
 toy story
 aladdin
 braveheart
-a space odyssey
+2001:a space odyssey
 reservoir dogs
 oppenheimer
 barbie
@@ -115,10 +117,11 @@ finding nemo
 finding dory
 catch me if you can
 now you see me
-spiderman no way home
-spiderman homecoming
-spiderman far from home
+spiderman: no way home
+spiderman: homecoming
+spiderman: far from home
 the amazing spiderman
+spider-man
 harry potter and the deathly hallows
 million dollar baby
 the grand budapest hotel
@@ -133,13 +136,13 @@ the bee movie
 beauty and the beast
 the imitation game
 the bourne ultimatum
-james bond skyfall
-james bond spectre
-james bond no time to die
-mission impossible fallout
-mission impossible ghost protocol
-mission impossible rogue nation
-mission impossible dead reckoning
+james bond: skyfall
+james bond: spectre
+james bond: no time to die
+mission impossible: fallout
+mission impossible: ghost protocol
+mission impossible: rogue nation
+mission impossible: dead reckoning
 the martian
 gravity
 zootropolis
@@ -160,7 +163,7 @@ the maze runner
 geostorm
 venom
 flash
-dont look up
+don't look up
 morbius
 the humger games
 teenage mutant ninja turtles
@@ -176,5 +179,5 @@ men in black
 first blood
 rambo
 angry birds
-james bond the world is not enough
-james bond doctor no
+james bond: the world is not enough
+james bond: doctor no
