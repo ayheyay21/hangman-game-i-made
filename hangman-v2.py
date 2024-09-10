@@ -54,7 +54,7 @@ def file_checker():
             if hangchoice > 0 and hangchoice <= count:
                 selected_file = file_names[hangchoice - 1]
                 return selected_file
-            elif hangchoice == 0:
+            elif hangchoice == -1:
                 return 'quit'
             else:
                 print("____________________________________")
