@@ -179,3 +179,18 @@ sofia
 south tarawa
 saint george's
 saint john's
+tallinn
+comayaguela
+tirana
+tokyo
+tripoli
+tunis
+ulaanbaatar
+valletta
+vienna
+vilnius
+windhoek
+yaounde
+yaren
+yerevan
+zagreb
