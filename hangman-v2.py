@@ -6,7 +6,8 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 def word_extractor(number):
     if number != 0:
         option = number - 1
-        optionslist = ['wordlist.txt', 'unavailable.txt', 'videogameslist.txt']
+        optionslist = ['wordlist.txt', 'carslist.txt', 'videogameslist.txt', 'countrieslist.txt',
+                       'movielist.txt', 'tvshowlist.txt', 'americanstateslist.txt']
         filename = optionslist[option]
         os.system('cls')
         file_path = os.path.join(script_dir, 'database', filename)
@@ -23,8 +24,12 @@ def main():
         os.system('cls')
         print("_______________________________________")
         print("1: Common English Words")
-        print("2: Advanced English words")
+        print("2: Cars")
         print("3: Video Games")
+        print("4: Countries")
+        print("5: Movies")
+        print("6: TV Shows")
+        print("7: American States")
         print("_______________________________________")
         hangchoice = int(input(">"))
         x, num_of_options = word_extractor(hangchoice)
