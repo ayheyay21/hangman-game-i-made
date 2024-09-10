@@ -3,6 +3,7 @@ import os
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
+# function used a random word from a chose theme text file
 def word_extractor(number):
     if number != 0:
         option = number - 1
@@ -18,6 +19,7 @@ def word_extractor(number):
         word = random.choice(wordlist).lower()
         return word, len(optionslist)
 
+#the main hangman game
 def main():
     continuechk = True
     while continuechk == True:
@@ -32,6 +34,7 @@ def main():
         print("7: American States")
         print("_______________________________________")
         hangchoice = int(input(">"))
+        #sends choice to word_extractor and return a random word from chosen file
         x, num_of_options = word_extractor(hangchoice)
         if hangchoice <= num_of_options and hangchoice > 0:
             word, y = word_extractor(hangchoice)
@@ -48,7 +51,7 @@ def main():
         blank1 = '_' * (len(word))
 
         blank = blank1
-
+        # hangman diagrams
         chance6 = '''
                                             ______
                                            |      |
@@ -123,14 +126,17 @@ def main():
 
         repeated = [None]
         repeated.remove(None)
-
+        
+        #used to add the punctuations and numbers to the blanks
         punct = [' ', "'", '"', '-', ':', ';', ',', '.', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
         p = 0
         for letter in word:
             if letter in punct:
                 blankarr[p] = letter
             p = p + 1
-
+        
+        # the game begins here
+        #the game runs until the user runs out of chances or completes the game
         completion = False
         chances = 6
         while ((chances > 0) and (completion == False)):
@@ -138,7 +144,8 @@ def main():
             blanknonarr = ''
             for z in range(0, len(blankarr)):
                 blanknonarr = blanknonarr + blankarr[z]
-
+            
+            #adds spaces to the blanks output
             blank2 = ''
             for item in blanknonarr:
                 blank2 = blank2 + item
@@ -150,7 +157,7 @@ def main():
             for item in blank2arr:
                 blank3 = blank3 + item
 
-            print(f'({blank3})')
+            print(f'[{blank3}]')
             guess1 = input("Guess a letter: ")
             guess = guess1.lower()
             if len(guess) == 1 and guess in 'abcdefghijklmnopqrstuvwxyz':
