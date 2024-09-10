@@ -53,3 +53,57 @@ raze
 skye
 link
 zelda
+brimstone
+phoenix
+gecko
+sova
+arthur morgan
+dutch van der linde
+hosea matthews
+karen jones
+tilly jackson
+mary beth
+andrew milton
+leopold strauss
+sadie adler
+john marston
+abigail roberts
+jack marston
+javier escuella
+bill williamson
+uncle
+clementine
+momo
+charles smith
+lenny summers
+micah bell
+colm o'driscoll
+molly o'shea
+miss grimshaw
+sean macguire
+simon pearson
+josiah trelawny
+catherine braithwaite
+beau gray
+penelope braithwaite
+leviticus cornwall
+dandelion
+sigismund djikstra
+fringilla vigo
+phillipa eilhart
+francesa findabear
+eskel
+lambert
+margarita laux-antille
+vernon roche
+crach an craite
+hjalmar an craite
+cery an craite
+anna strenger
+phillip strenger
+zoltan chivay
+desmond miles
+william miles
+adewale
+evie frye
+jacob frye
