@@ -1,99 +1,58 @@
-washington dc
-ottawa
-mexico city
-brasilia
-bogota
-quito
-buenos
-aires
-montevideo
-asuncion
-la paz
-santiago
-lima
-paris
-berlin
-warsaw
-bucharest
-budapest
-prague
-vaduz
-helsinki
-stockholm
-oslo
-copenhagen
-brussels
-amsterdam
-london
-andorra la vella
-monaco
-san marino
-vatican city
-rome
-athens
-ankara
-moscow
-islamabad
-tehran
-baghdad
-damascus
-san'aa
-muscat
-manama
 abu dhabi
-kuwait city
-beirut
-jerusalem
-amman
-tashkent
-new delhi
-colombo
-kathmandu
-thimphu
-pyongyang
-seoul
-beijing
-taipei
-manila
-canberra
-wellington
-suva
-kabul
-yamoussoukro
 abuja
 accra
 addis ababa
+aires
 algiers
+amman
+amsterdam
+andorra la vella
+ankara
 antananarivo
 apia
 ashgabat
 asmara
 astana
+asuncion
+athens
+baghdad
 baku
-tbilisi
 bamako
 bandar seri begawan
+bangkok
 bangui
 banjul
-bangkok
 basseterre
+beijing
+beirut
 belgrade
 belmopan
+berlin
 bern
 bishkek
 bissau
-cape town
-pretoria
+bogota
+brasilia
 bratislava
 brazzaville
 bridgetown
+brussels
+bucharest
+budapest
+buenos
+bujumbura
 cairo
+canberra
+cape town
 caracas
 castries
 chisinau
+colombo
+comayaguela
 conakry
-porto-novo
+copenhagen
 dakar
+damascus
 dili
 djibouti
 dodoma
@@ -101,31 +60,38 @@ doha
 dublin
 dushanbe
 freetown
-canberra
 funafuti
 gaborone
 georgetown
-bujumbura
 guatemala city
 hanoi
 harare
 havana
+helsinki
 honaira
+islamabad
+jakarta
+jerusalem
 juba
+kabul
 kampala
+kathmandu
 khartoum
 kigali
 kingston
 kingstown
 kinshasa
 kuala lumpur
+kuwait city
 kyiv
+la paz
 libreville
 lilongwe
+lima
 lisbon
 ljubljana
-mbabane
 lome
+london
 luanda
 lusaka
 luxembourg
@@ -133,27 +99,37 @@ madrid
 majuro
 male
 managua
+manama
+manila
 maputo
+mbabane
+mexico city
 minsk
 mogadishu
+monaco
 monrovia
+montevideo
 moroni
 moscow
-nairobi
-naypyidaw
-nassau
+muscat
 n'djamena
+nairobi
+nassau
+naypyidaw
+new delhi
 ngerulmud
 niamey
 nicosia
 nouakchott
 nuku'alofa
-jakarta
 nuuk
+oslo
+ottawa
 ouagadougou
 palikir
 panama city
 paramaribo
+paris
 phnom penh
 podgorica
 port louis
@@ -161,35 +137,57 @@ port moresby
 port of spain
 port vila
 port-au-prince
+porto-novo
+prague
 praia
+pretoria
 pristina
+pyongyang
+quito
 rabat
 reykjavik
 riga
 riyadh
+rome
 roseau
+saint george's
+saint john's
 san jose
+san marino
 san salvador
+san'aa
+santiago
 santo domingo
 sao tome
 sarajevo
+seoul
 singapore
 skjope
 sofia
 south tarawa
-saint george's
-saint john's
+stockholm
+suva
+taipei
 tallinn
-comayaguela
+tashkent
+tbilisi
+tehran
+thimphu
 tirana
 tokyo
 tripoli
 tunis
 ulaanbaatar
+vaduz
 valletta
+vatican city
 vienna
 vilnius
+warsaw
+washington dc
+wellington
 windhoek
+yamoussoukro
 yaounde
 yaren
 yerevan
