@@ -1,9 +1,181 @@
 import random
 import os
+import sys
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-# function used a random word from a chose theme text file
+sys.set_int_max_str_digits(0)
+#This function decrypts previously encrypted values
+def decrypt(cipher):
+    while True:
+        try:
+            os.system('cls')
+            cipherarr = [None] * (len(cipher))
+            c = 0
+            for char in cipher:
+                cipherarr[c] = char
+                c += 1
+            cipherogarr = [None] * (len(cipher))
+            hexval = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+            remapval = ['%', 'r', '[', '?', '7', 'q', '$', 'K', 'z', ')', '{', 'a', 'F', '3', '6', 'e']
+            b = 0
+            for value in cipherarr:
+                v = 0
+                flag = False
+                while flag == False:
+                    if value == remapval[v]:
+                        cipherogarr[b] = hexval[v]
+                        flag = True
+                    v += 1
+                b += 1
+            hexstring = ''
+            for item in cipherogarr:
+                hexstring = hexstring + item
+            denval = int(hexstring, base=16)
+            denvalstr = str(denval)
+            denvalstrarr = [None] * (len(denvalstr))
+            denvalintarr = [0] * (len(denvalstr))
+            d = 0
+            for item in denvalstr:
+                denvalstrarr[d] = item
+                d += 1
+            w = 0
+            for digit in denvalstrarr:
+                denvalintarr[w] = int(digit)
+                w += 1
+            remap2 = [4, 7, 5, 1, 9, 6, 3, 8, 0, 2]
+            ogdenvalintarr = [0] * (len(denvalintarr))
+            h = 0
+            for digit in denvalintarr:
+                ogdenvalintarr[h] = remap2[digit]
+                h += 1
+            ogdenvalintarrrev = ogdenvalintarr[::-1]
+            originaldenary = [0] * (len(ogdenvalintarrrev))
+            f = 0
+            for item in ogdenvalintarrrev:
+                originaldenary[f] = 9 - item
+                f += 1
+            orignaldenarystrarr = [None] * (len(originaldenary))
+            p = 0
+            for item in originaldenary:
+                orignaldenarystrarr[p] = str(item)
+                p += 1
+            originaldenarystr = ''
+            for item in orignaldenarystrarr:
+                originaldenarystr = originaldenarystr + item
+            originaldenaryint = int(originaldenarystr)
+            decimal = originaldenaryint
+            hex_digits = "0123456789ABCDEF"
+            hexadecimal = ""
+            while decimal > 0:
+                remainder = decimal % 16
+                hexadecimal = hex_digits[remainder] + hexadecimal
+                decimal = decimal // 16
+            kys = hexadecimal
+            code = kys
+            codeshift1 = int(code[len(code) - 2])
+            codeshift2 = int(code[len(code) - 1])
+            codearr = [None] * (len(code) // 2)
+            for count in range(0, len(codearr)):
+                codearr[count] = ''
+            index = 0
+            for t in range(0, len(codearr)):
+                for y in range(0 + index, 2 + index):
+                    codearr[t] = codearr[t] + code[y]
+                index += 2
+            codearr.pop()
+            codebinarr = [None] * (len(codearr))
+            r = 0
+            for item in codearr:
+                hexdecnum = item
+                binnum = ""
+                hexlen = len(hexdecnum)
+                i = 0
+                while i < hexlen:
+                    if hexdecnum[i] == '0':
+                        binnum = binnum + "0000"
+                    elif hexdecnum[i] == '1':
+                        binnum = binnum + "0001"
+                    elif hexdecnum[i] == '2':
+                        binnum = binnum + "0010"
+                    elif hexdecnum[i] == '3':
+                        binnum = binnum + "0011"
+                    elif hexdecnum[i] == '4':
+                        binnum = binnum + "0100"
+                    elif hexdecnum[i] == '5':
+                        binnum = binnum + "0101"
+                    elif hexdecnum[i] == '6':
+                        binnum = binnum + "0110"
+                    elif hexdecnum[i] == '7':
+                        binnum = binnum + "0111"
+                    elif hexdecnum[i] == '8':
+                        binnum = binnum + "1000"
+                    elif hexdecnum[i] == '9':
+                        binnum = binnum + "1001"
+                    elif hexdecnum[i] == 'a' or hexdecnum[i] == 'A':
+                        binnum = binnum + "1010"
+                    elif hexdecnum[i] == 'b' or hexdecnum[i] == 'B':
+                        binnum = binnum + "1011"
+                    elif hexdecnum[i] == 'c' or hexdecnum[i] == 'C':
+                        binnum = binnum + "1100"
+                    elif hexdecnum[i] == 'd' or hexdecnum[i] == 'D':
+                        binnum = binnum + "1101"
+                    elif hexdecnum[i] == 'e' or hexdecnum[i] == 'E':
+                        binnum = binnum + "1110"
+                    elif hexdecnum[i] == 'f' or hexdecnum[i] == 'F':
+                        binnum = binnum + "1111"
+                    i = i + 1
+                codebinarr[r] = binnum
+                r += 1
+            binstring = ''
+            for f in range(0, len(codebinarr)):
+                binstring = binstring + codebinarr[f]
+            binstringarr = [None] * (len(binstring))
+            for g in range(0, len(binstring)):
+                binstringarr[g] = binstring[g]
+            for item in range(0, len(binstringarr), codeshift2):
+                if binstringarr[item] == '0':
+                    binstringarr[item] = '1'
+                elif binstringarr[item] == '1':
+                    binstringarr[item] = '0'
+            for item in range(0, len(binstringarr), codeshift1):
+                if binstringarr[item] == '0':
+                    binstringarr[item] = '1'
+                elif binstringarr[item] == '1':
+                    binstringarr[item] = '0'
+            binstring2 = ''
+            for u in range(0, len(binstringarr)):
+                binstring2 = binstring2 + binstringarr[u]
+            binstringarr2 = [None] * (len(binstring2) // 8)
+            for n in range(0, len(binstringarr2)):
+                binstringarr2[n] = ''
+            index = 0
+            for t in range(0, len(binstringarr2)):
+                for y in range(0 + index, 8 + index):
+                    binstringarr2[t] = binstringarr2[t] + binstring2[y]
+                index += 8
+            arrbindec = [None] * (len(binstringarr2))
+            for k in range(0, len(binstringarr2)):
+                b_num = list(binstringarr2[k])
+                value = 0
+                for i in range(len(b_num)):
+                    digit = b_num.pop()
+                    if digit == '1':
+                        value = value + pow(2, i)
+                arrbindec[k] = value
+            binascarr = [None] * len(binstringarr2)
+            z = 0
+            for item in arrbindec:
+                binascarr[z] = chr(item)
+                z += 1
+            decryptcipherstr = ''
+            for h in range(0, len(binascarr)):
+                decryptcipherstr = decryptcipherstr + binascarr[h]
+            return decryptcipherstr
+        except:
+            return ''
+
+# function used a random word from a chosen theme text file
 def word_extractor(filename):
     os.system('cls')
     file_path = os.path.join(script_dir, 'database', filename)
@@ -11,7 +183,10 @@ def word_extractor(filename):
         wordlist = []
         for line in f:
             wordlist.append(line.strip())
-    word = random.choice(wordlist).lower()
+
+    word1 = random.choice(wordlist)
+    word2 = decrypt(word1)
+    word = word2.lower()
     return word
 
 # function that automatically outputs the possible options
@@ -90,7 +265,7 @@ def main():
             # hangman diagrams
             def chance_printer(chances):
                 def chance_printer2(chancearr):
-                    for item in chancearr6:
+                    for item in chancearr:
                         print(item)
                 if chances == 6:
                     chancearr6 = ['  ______ ', " |      |", '        |', '        |', '        |', '---------']
