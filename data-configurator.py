@@ -4,6 +4,59 @@ import os
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
+def file_checker():
+    #function the retrieves the file names
+    def file_name_retriever():
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        target_folder = os.path.join(script_dir, 'database')
+        files = [f for f in os.listdir(target_folder) if os.path.isfile(os.path.join(target_folder, f))]
+        return files
+    file_names = file_name_retriever()
+    #removes the .txt from the end
+    options = [os.path.splitext(f)[0] if f.endswith('.txt') else f for f in file_names]
+
+    # replaces a dash in the file name with a space
+    def dash_remover(word_in_options):
+        string1 = ''
+        for item in word_in_options:
+            if item == '-':
+                string1 = string1 + " "
+            else:
+                string1 = string1 + item
+        return string1
+
+    f = 0
+    for item in options:
+        replacement = dash_remover(item)
+        options[f] = replacement
+        f += 1
+
+    while True:
+        count = 0
+        print("______________________________________")
+        for item in options:
+            count += 1
+            print(f"{count}: {item.title()}")
+        print("______________________________________")
+        try:
+            hangchoice = int(input(">"))
+            if hangchoice > 0 and hangchoice <= count:
+                selected_file = file_names[hangchoice - 1]
+                return selected_file
+            elif hangchoice == -1:
+                return 'quit'
+            else:
+                print("____________________________________")
+                tchoice = input("Invalid Input")
+                print("____________________________________")
+                os.system('cls')
+                print("ENTER -1 TO QUIT")
+        except:
+            print("____________________________________")
+            tchoice = input("Invalid Input")
+            print("____________________________________")
+            os.system('cls')
+            print("ENTER -1 TO QUIT")
 
 # extracts list of words from a text file
 def wordlist_extractor(filename, tag):
@@ -173,16 +226,16 @@ def configurator():
     print("____________________________________")
     config = int(input(">"))
     if config == 1:
-        filename = input("Enter the name of the file located in the database folder: ")
+        filename = file_checker()
         duplicate_checker(filename)
     elif config == 2:
-        filename = input("Enter the name of the file located in the database folder: ")
+        filename = file_checker()
         file_sorter(filename, 1)
     elif config == 3:
-        filename = input("Enter the name of the file located in the database folder: ")
+        filename = file_checker()
         file_shuffler(filename, 1)
     elif config == 4:
-        filename = input("Enter the name of the file located in the database folder: ")
+        filename = file_checker()
         wordlist_extractor(filename, 2)
 
 
