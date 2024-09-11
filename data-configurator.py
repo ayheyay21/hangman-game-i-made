@@ -1,8 +1,10 @@
 # Configurator
 import random
 import os
+
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
+# extracts list of words from a text file
 def wordlist_extractor(filename):
     os.system('cls')
     file_path = os.path.join(script_dir, 'database', filename)
@@ -11,9 +13,11 @@ def wordlist_extractor(filename):
         for line in f:
             wordlist.append(line.strip())
     return wordlist
-        
+
+#function used to remove specific bits of data from a text file
 def remove_line(filename, line_to_remove, tag):
     file_path = os.path.join(script_dir, 'database', filename)
+    # removes all instances of a word and then append it once to the end of the text file
     if tag == 1:
         with open(file_path, 'r') as file:
             lines = file.readlines()
@@ -28,13 +32,15 @@ def remove_line(filename, line_to_remove, tag):
         with open(file_path, 'w') as file:
             file.writelines(lines)
 
+    # removes all instances of the line without appending it to the end of the text file
     elif tag == 2:
         with open(file_path, 'r') as file:
             lines = file.readlines()
         lines = [line for line in lines if line.strip() != line_to_remove]
         with open(file_path, 'w') as file:
             file.writelines(lines)
-
+            
+    #removes and blanks from a text file
     elif tag == 3:
         with open(file_path, 'r') as file:
             lines = file.readlines()
@@ -42,6 +48,7 @@ def remove_line(filename, line_to_remove, tag):
         with open(file_path, 'w') as file:
             file.writelines(lines)
     
+    #removes the training new line character from the end of the text file
     elif tag == 4:
         with open(file_path, 'r') as file:
             content = file.read()
@@ -49,8 +56,7 @@ def remove_line(filename, line_to_remove, tag):
         with open(file_path, 'w') as file:
             file.write(content)
 
-    
-
+# function used to shuffle all items in a text file
 def file_shuffler(filename, tag):
     os.system('cls')
     file_path = os.path.join(script_dir, 'database', filename)
@@ -79,6 +85,7 @@ def file_shuffler(filename, tag):
     elif tag == 2:
         return -2
 
+# function used to sort all items in a text file alphabetically
 def file_sorter(filename, tag):
     file_path = os.path.join(script_dir, 'database', filename)
     with open(file_path, 'r') as file:
@@ -100,8 +107,8 @@ def file_sorter(filename, tag):
     elif tag == 2:
         return -2
 
+#function used to check for duplicates in a text file
 def duplicate_checker(filename):
-
     os.system('cls')
     file_path = os.path.join(script_dir, 'database', filename)
     with open(file_path) as f:
@@ -141,6 +148,8 @@ def duplicate_checker(filename):
             print("______________________________________________________________")
             input("Press enter to continue")
 
+
+#main function that controls what is done
 def configurator():
     os.system('cls')
     print("____________________________________")
@@ -158,5 +167,6 @@ def configurator():
     elif config == 3:
         filename = input("Enter the name of the file located in the database folder: ")
         file_shuffler(filename, 1)
+
 
 configurator()
