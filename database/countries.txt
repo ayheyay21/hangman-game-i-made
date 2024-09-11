@@ -24,7 +24,7 @@ botswana
 brazil
 brunei
 bulgaria
-burkina faso
+burkina-faso
 burundi
 cabo verde
 cambodia

@@ -2,7 +2,7 @@ breaking bad
 money heist
 the railway men
 chernobyl
-the queens gambit
+the queen's gambit
 arrow
 the flash
 loki
@@ -11,9 +11,9 @@ secret invasion
 better call saul
 friends
 full house
-resurrection ertugrul
+resurrection: ertugrul
 the mandalorian
-mamifest
+manifest
 the three body problem
 the walking dead
 the big bang theory
@@ -65,10 +65,10 @@ the crown
 one punch man
 ben ten
 the grand tour
-naruto shippuden
+naruto: shippuden
 top gear
 house of cards
-dexters laboratory
+dexter's laboratory
 daredevil
 moonknight
 the sandman
