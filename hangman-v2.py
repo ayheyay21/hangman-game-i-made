@@ -88,70 +88,31 @@ def main():
             blank1 = '_' * (len(word))
             blank = blank1
             # hangman diagrams
-            chance6 = '''
-                                                        ______
-                                                       |      |
-                                                              |
-                                                              |
-                                                              |
-                                                      ---------
-
-                                            '''
-            chance5 = '''
-                                                        ______
-                                                       |      |
-                                                       O      |
-                                                              |
-                                                              |
-                                                      ---------
-
-                                            '''
-            chance4 = '''
-                                                        ______
-                                                       |      |
-                                                       O      |
-                                                       |      |
-                                                              |
-                                                      ---------
-
-                                            '''
-            chance3 = '''
-                                                        ______
-                                                       |      |
-                                                       O      |
-                                                      /|      |
-                                                              |
-                                                      ---------
-
-                                            '''
-            chance2 = '''
-                                                        ______
-                                                       |      |
-                                                       O      |
-                                                      /|\     |
-                                                              |
-                                                      ---------
-
-                                            '''
-            chance1 = '''
-                                                        ______
-                                                       |      |
-                                                       O      |
-                                                      /|\     |
-                                                      /       |
-                                                      ---------
-
-                                            '''
-            chance0 = '''
-                                                        ______
-                                                       |      |
-                                                       O      |
-                                                      /|\     |
-                                                      / \     |
-                                                      ---------
-
-                                            '''
-            chance = [chance0, chance1, chance2, chance3, chance4, chance5, chance6]
+            def chance_printer(chances):
+                def chance_printer2(chancearr):
+                    for item in chancearr6:
+                        print(item)
+                if chances == 6:
+                    chancearr6 = ['  ______ ', " |      |", '        |', '        |', '        |', '---------']
+                    chance_printer2(chancearr6)
+                elif chances == 5:
+                    chancearr5 = ['  ______ ', " |      |", ' O      |', '        |', '        |', '---------']
+                    chance_printer2(chancearr5)
+                elif chances == 4:
+                    chancearr4 = ['  ______ ', " |      |", ' O      |', ' |      |', '        |', '---------']
+                    chance_printer2(chancearr4)
+                elif chances == 3:
+                    chancearr3 = ['  ______ ', " |      |", ' O      |', '/|      |', '        |', '---------']
+                    chance_printer2(chancearr3)
+                elif chances == 2:
+                    chancearr2 = ['  ______ ', " |      |", ' O      |', '/|\     |', '        |', '---------']
+                    chance_printer2(chancearr2)
+                elif chances == 1:
+                    chancearr1 = ['  ______ ', " |      |", ' O      |', '/|\     |', '/       |', '---------']
+                    chance_printer2(chancearr1)
+                elif chances == 0:
+                    chancearr0 = ['  ______ ', " |      |", ' O      |', '/|\     |', '/ \     |', '---------']
+                    chance_printer2(chancearr0)
 
             for x in range(0, (len(word))):
                 blankarr[x] = blank[x]
@@ -223,15 +184,15 @@ def main():
                     print(f"[{guess}] is an invalid input. Single letters only")
 
                 print(f'Attempted letters: {repeated}')
-                print(chance[chances])
+                chance_printer(chances)
 
             os.system('cls')
             if chances == 0 and completion == False:
                 print("YOU COULDNT GUESS THE WORD")
-                print(chance[0])
+                chance_printer(0)
             elif chances > 0 and completion == True:
                 print("CONGRATULATIONS ON GUESSING THE WORD!!!!")
-                print(chance[chances])
+                chance_printer(chances)
             print("THE WORD WAS:")
             print(f'[{word}]')
 
