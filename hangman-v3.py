@@ -268,13 +268,13 @@ def main():
                     for item in chancearr:
                         print(item)
 
-                chancearr6 = ['  ______ ', " |      |", '        |', '        |', '        |', '---------']
-                chancearr5 = ['  ______ ', " |      |", ' O      |', '        |', '        |', '---------']
-                chancearr4 = ['  ______ ', " |      |", ' O      |', ' |      |', '        |', '---------']
-                chancearr3 = ['  ______ ', " |      |", ' O      |', '/|      |', '        |', '---------']
-                chancearr2 = ['  ______ ', " |      |", ' O      |', '/|\     |', '        |', '---------']
-                chancearr1 = ['  ______ ', " |      |", ' O      |', '/|\     |', '/       |', '---------']
-                chancearr0 = ['  ______ ', " |      |", ' O      |', '/|\     |', '/ \     |', '---------']
+                chancearr6 = ['     ______ ', "    |      |", '           |', '           |', '           |', '   ---------']
+                chancearr5 = ['     ______ ', "    |      |", '    O      |', '           |', '           |', '   ---------']
+                chancearr4 = ['     ______ ', "    |      |", '    O      |', '    |      |', '           |', '   ---------']
+                chancearr3 = ['     ______ ', "    |      |", '    O      |', '   /|      |', '           |', '   ---------']
+                chancearr2 = ['     ______ ', "    |      |", '    O      |', '   /|\     |', '           |', '   ---------']
+                chancearr1 = ['     ______ ', "    |      |", '    O      |', '   /|\     |', '   /       |', '   ---------']
+                chancearr0 = ['     ______ ', "    |      |", '    O      |', '   /|\     |', '   / \     |', '   ---------']
                 if chances == 6:
                     chance_printer2(chancearr6)
                 elif chances == 5:
@@ -382,4 +382,3 @@ main()
 # List of known issues and possible improvements
 # 3- Can use direct user keyboard input to register a letter rather than pressing enter
 # 4- Should make a function to automatically insert new words into files
-# 5- Could possibly encrypt and decrypt files
