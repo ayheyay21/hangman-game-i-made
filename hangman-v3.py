@@ -324,6 +324,7 @@ def main():
                 blank2arr = []
                 for item in blank2:
                     blank2arr.append(item)
+                blank2arr.pop()
                 blank3 = ''
                 for item in blank2arr:
                     blank3 = blank3 + item
