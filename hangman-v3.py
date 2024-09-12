@@ -267,26 +267,27 @@ def main():
                 def chance_printer2(chancearr):
                     for item in chancearr:
                         print(item)
+
+                chancearr6 = ['  ______ ', " |      |", '        |', '        |', '        |', '---------']
+                chancearr5 = ['  ______ ', " |      |", ' O      |', '        |', '        |', '---------']
+                chancearr4 = ['  ______ ', " |      |", ' O      |', ' |      |', '        |', '---------']
+                chancearr3 = ['  ______ ', " |      |", ' O      |', '/|      |', '        |', '---------']
+                chancearr2 = ['  ______ ', " |      |", ' O      |', '/|\     |', '        |', '---------']
+                chancearr1 = ['  ______ ', " |      |", ' O      |', '/|\     |', '/       |', '---------']
+                chancearr0 = ['  ______ ', " |      |", ' O      |', '/|\     |', '/ \     |', '---------']
                 if chances == 6:
-                    chancearr6 = ['  ______ ', " |      |", '        |', '        |', '        |', '---------']
                     chance_printer2(chancearr6)
                 elif chances == 5:
-                    chancearr5 = ['  ______ ', " |      |", ' O      |', '        |', '        |', '---------']
                     chance_printer2(chancearr5)
                 elif chances == 4:
-                    chancearr4 = ['  ______ ', " |      |", ' O      |', ' |      |', '        |', '---------']
                     chance_printer2(chancearr4)
                 elif chances == 3:
-                    chancearr3 = ['  ______ ', " |      |", ' O      |', '/|      |', '        |', '---------']
                     chance_printer2(chancearr3)
                 elif chances == 2:
-                    chancearr2 = ['  ______ ', " |      |", ' O      |', '/|\     |', '        |', '---------']
                     chance_printer2(chancearr2)
                 elif chances == 1:
-                    chancearr1 = ['  ______ ', " |      |", ' O      |', '/|\     |', '/       |', '---------']
                     chance_printer2(chancearr1)
                 elif chances == 0:
-                    chancearr0 = ['  ______ ', " |      |", ' O      |', '/|\     |', '/ \     |', '---------']
                     chance_printer2(chancearr0)
 
             for x in range(0, (len(word))):
