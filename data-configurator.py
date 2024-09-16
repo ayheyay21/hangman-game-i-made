@@ -452,7 +452,7 @@ def file_decrypter(filename):
         with open(file_path, 'w') as file:
             for item in decrypted:
                 file.write(str(item) + '\n')
-        remove_line(filename, '', 4)
+        remove_line(filename, '', 4, 'database')
         print(f"[SUCCESS] All the elements in [{file_path}] were successfully decrypted")
 
     except Exception as e:
@@ -547,8 +547,8 @@ def wordlist_extractor(filename, tag, folder):
         return -1
 
 # function used to remove specific bits of data from a text file
-def remove_line(filename, line_to_remove, tag):
-    file_path = os.path.join(script_dir, 'database', filename)
+def remove_line(filename, line_to_remove, tag, folder):
+    file_path = os.path.join(script_dir, folder, filename)
     # removes all instances of a word and then append it once to the end of the text file
     if tag == 1:
         with open(file_path, 'r') as file:
@@ -606,8 +606,8 @@ def file_shuffler(filename, tag):
     with open(file_path, 'w') as file:
         for word in shuffle:
             file.write(word + '\n')
-    remove_line(filename, '', 3)
-    remove_line(filename, '', 4)
+    remove_line(filename, '', 3, 'database-backup')
+    remove_line(filename, '', 4, 'database-backup')
     if tag == 1:
         print("______________________________________________________________")
         print(f"[SUCCESS]: [{file_path}] has been successfully shuffled")
@@ -627,8 +627,8 @@ def file_sorter(filename, tag):
     with open(file_path, 'w') as file:
         for word in words:
             file.write(word + '\n')
-    remove_line(filename, '', 3)
-    remove_line(filename, '', 4)
+    remove_line(filename, '', 3, 'database-backup')
+    remove_line(filename, '', 4, 'database-backup')
     os.system('cls')
     if tag == 1:
         print("______________________________________________________________")
@@ -674,7 +674,7 @@ def duplicate_checker(filename):
         os.system('cls')
         if remove == 'y':
             for item in duplicates:
-                remove_line(file_path, item, 1)
+                remove_line(file_path, item, 1, 'database-backup')
             print("______________________________________________________________")
             print(f"[SUCCESS] Duplicates have been removed from [{file_path}]")
             print("______________________________________________________________")
@@ -743,7 +743,7 @@ def file_synchronization():
                         for item in encrypted:
                             file.write(str(item) + '\n')
                     print(file)
-                    remove_line(file_path, '', 4)
+                    remove_line(file_path, '', 4, 'database')
                 os.system('cls')
                 print("[SUCCESS] All files have been synced")
                 input("Press enter to continue")
