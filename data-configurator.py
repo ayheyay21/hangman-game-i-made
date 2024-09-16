@@ -680,6 +680,7 @@ def duplicate_checker(filename):
             print("______________________________________________________________")
             input("Press enter to continue")
 
+# function used to sync unencrypted database-backup words to database encrypted versions
 def file_synchronization():
     os.system('cls')
     print("This may take a while. Do Not Exit The Program")
