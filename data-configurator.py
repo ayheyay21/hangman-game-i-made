@@ -401,11 +401,11 @@ def file_decrypter(filename):
             pass
 
 
-def file_checker():
+def file_checker(folder, tag):
     #function the retrieves the file names
     def file_name_retriever():
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        target_folder = os.path.join(script_dir, 'database')
+        target_folder = os.path.join(script_dir, folder)
         files = [f for f in os.listdir(target_folder) if os.path.isfile(os.path.join(target_folder, f))]
         return files
     file_names = file_name_retriever()
@@ -428,37 +428,40 @@ def file_checker():
         options[f] = replacement
         f += 1
 
-    while True:
-        count = 0
-        print("______________________________________")
-        for item in options:
-            count += 1
-            print(f"{count}: {item.title()}")
-        print("______________________________________")
-        try:
-            hangchoice = int(input(">"))
-            if hangchoice > 0 and hangchoice <= count:
-                selected_file = file_names[hangchoice - 1]
-                return selected_file
-            elif hangchoice == -1:
-                return 'quit'
-            else:
+    if tag == 1:
+        while True:
+            count = 0
+            print("______________________________________")
+            for item in options:
+                count += 1
+                print(f"{count}: {item.title()}")
+            print("______________________________________")
+            try:
+                hangchoice = int(input(">"))
+                if hangchoice > 0 and hangchoice <= count:
+                    selected_file = file_names[hangchoice - 1]
+                    return selected_file
+                elif hangchoice == -1:
+                    return 'quit'
+                else:
+                    print("____________________________________")
+                    tchoice = input("Invalid Input")
+                    print("____________________________________")
+                    os.system('cls')
+                    print("ENTER -1 TO QUIT")
+            except:
                 print("____________________________________")
                 tchoice = input("Invalid Input")
                 print("____________________________________")
                 os.system('cls')
                 print("ENTER -1 TO QUIT")
-        except:
-            print("____________________________________")
-            tchoice = input("Invalid Input")
-            print("____________________________________")
-            os.system('cls')
-            print("ENTER -1 TO QUIT")
+    elif tag == 2:
+        return file_names
 
 # extracts list of words from a text file
-def wordlist_extractor(filename, tag):
+def wordlist_extractor(filename, tag, folder):
     os.system('cls')
-    file_path = os.path.join(script_dir, 'database', filename)
+    file_path = os.path.join(script_dir, folder, filename)
     with open(file_path) as f:
         wordlist = []
         for line in f:
@@ -472,7 +475,6 @@ def wordlist_extractor(filename, tag):
         input("Press enter to continue")
         os.system('cls')
         return -1
-
 
 # function used to remove specific bits of data from a text file
 def remove_line(filename, line_to_remove, tag):
@@ -516,11 +518,10 @@ def remove_line(filename, line_to_remove, tag):
         with open(file_path, 'w') as file:
             file.write(content)
 
-
 # function used to shuffle all items in a text file
 def file_shuffler(filename, tag):
     os.system('cls')
-    file_path = os.path.join(script_dir, 'database', filename)
+    file_path = os.path.join(script_dir, 'database-backup', filename)
     with open(file_path, 'r') as file:
         words = file.readlines()
     words = [word.strip() for word in words]
@@ -546,10 +547,9 @@ def file_shuffler(filename, tag):
     elif tag == 2:
         return -2
 
-
 # function used to sort all items in a text file alphabetically
 def file_sorter(filename, tag):
-    file_path = os.path.join(script_dir, 'database', filename)
+    file_path = os.path.join(script_dir, 'database-backup', filename)
     with open(file_path, 'r') as file:
         words = file.readlines()
     words = [word.strip() for word in words]
@@ -569,11 +569,10 @@ def file_sorter(filename, tag):
     elif tag == 2:
         return -2
 
-
 # function used to check for duplicates in a text file
 def duplicate_checker(filename):
     os.system('cls')
-    file_path = os.path.join(script_dir, 'database', filename)
+    file_path = os.path.join(script_dir, 'database-backup', filename)
     with open(file_path) as f:
         wordlist = []
         for line in f:
@@ -611,6 +610,27 @@ def duplicate_checker(filename):
             print("______________________________________________________________")
             input("Press enter to continue")
 
+def file_synchronization():
+    os.system('cls')
+    print("This may take a while. Do Not Exit The Program")
+    input("Press enter to start")
+    db_filenames = file_checker('database-backup', 2)
+    for file in db_filenames:
+        file_path = os.path.join(script_dir, 'database', file)
+        words = wordlist_extractor(file, 1, 'database-backup')
+        encrypted = []
+        for item in words:
+            cipher = encrypt(item)
+            encrypted.append(cipher)
+        with open(file_path, 'w') as file:
+            # Iterate through the list and write each element to a new line in the file
+            for item in encrypted:
+                file.write(str(item) + '\n')
+        print(file)
+        remove_line(file_path, '', 4)
+    os.system('cls')
+    print("[SUCCESS] All files have been synced")
+    input("Press enter to continue")
 
 # main function that controls what is done
 def configurator():
@@ -622,25 +642,28 @@ def configurator():
     print("4: Access all the words in the file")
     print("5: Encrypt file (Ensure all elements are unencrypted first)")
     print("6: Decrypt file (Ensure all elements are encrypted first")
+    print("7: Sync database from database backup")
     print("____________________________________")
     config = int(input(">"))
     if config == 1:
-        filename = file_checker()
+        filename = file_checker('database', 1)
         duplicate_checker(filename)
     elif config == 2:
-        filename = file_checker()
+        filename = file_checker('database', 1)
         file_sorter(filename, 1)
     elif config == 3:
-        filename = file_checker()
+        filename = file_checker('database', 1)
         file_shuffler(filename, 1)
     elif config == 4:
-        filename = file_checker()
-        wordlist_extractor(filename, 2)
+        filename = file_checker('database', 1)
+        wordlist_extractor(filename, 2, 'database')
     elif config == 5:
-        filename = file_checker()
+        filename = file_checker('database', 1)
         file_encrypter(filename)
     elif config == 6:
-        filename = file_checker()
+        filename = file_checker('database', 1)
         file_decrypter(filename)
+    elif config == 7:
+        file_synchronization()
 
 configurator()
