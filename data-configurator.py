@@ -530,7 +530,6 @@ def file_checker(folder, tag):
 
 # extracts list of words from a text file
 def wordlist_extractor(filename, tag, folder):
-    os.system('cls')
     file_path = os.path.join(script_dir, folder, filename)
     with open(file_path) as f:
         wordlist = []
@@ -539,6 +538,7 @@ def wordlist_extractor(filename, tag, folder):
     if tag == 1:
         return wordlist
     elif tag == 2:
+        os.system('cls')
         print("_____________________________")
         print(wordlist)
         print("_____________________________")
@@ -680,28 +680,83 @@ def duplicate_checker(filename):
             print("______________________________________________________________")
             input("Press enter to continue")
 
+def length_comparer(filename):
+    d_list = wordlist_extractor(filename, 1, 'database')
+    db_list = wordlist_extractor(filename, 1, 'database-backup')
+    lenD = len(d_list)
+    lenDB = len(db_list)
+    return lenD, lenDB
+
 # function used to sync unencrypted database-backup words to database encrypted versions
 def file_synchronization():
-    os.system('cls')
-    print("This may take a while. Do Not Exit The Program")
-    input("Press enter to start")
-    db_filenames = file_checker('database-backup', 2)
-    for file in db_filenames:
-        file_path = os.path.join(script_dir, 'database', file)
-        words = wordlist_extractor(file, 1, 'database-backup')
-        encrypted = []
-        for item in words:
-            cipher = encrypt(item)
-            encrypted.append(cipher)
-        with open(file_path, 'w') as file:
-            # Iterate through the list and write each element to a new line in the file
-            for item in encrypted:
-                file.write(str(item) + '\n')
-        print(file)
-        remove_line(file_path, '', 4)
-    os.system('cls')
-    print("[SUCCESS] All files have been synced")
-    input("Press enter to continue")
+    while True:
+        try:
+            os.system('cls')
+            db_filenames = file_checker('database-backup', 2)
+            missedfiles = []
+            print("___________________________________")
+            for file in db_filenames:
+                lenD, lenDB = length_comparer(file)
+                even = 'SYNCED'
+                if lenD != lenDB:
+                    even = 'MISSING'
+                    missedfiles.append(file)
+
+                print(f'[{file}]')
+                print(f'Database Items: [{lenD}] Database-Backup Items: [{lenDB}] Status: [{even}]')
+            print("___________________________________")
+            print("Do you wish to synchronize? (y/n)")
+            u = input(">").lower()
+            if u == 'y':
+                check = True
+                while check:
+                    os.system('cls')
+                    print("___________________________________")
+                    print("1: SYNCHRONIZE ALL FILES")
+                    print("2: SYNCHRONIZE MISSING FILES ONLY")
+                    print("3: TO QUIT")
+                    print("___________________________________")
+                    y = int(input(">"))
+                    if y == 1:
+                        fileslist = db_filenames
+                        check = False
+                    elif y == 2:
+                        fileslist = missedfiles
+                        check = False
+                    elif y == 3:
+                        return -1
+                    else:
+                        print("invalid input")
+                        print("press enter to continue")
+
+                print("This may take a while. Do Not Exit The Program")
+                input("Press enter to start")
+                for file in fileslist:
+                    file_path = os.path.join(script_dir, 'database', file)
+                    words = wordlist_extractor(file, 1, 'database-backup')
+                    encrypted = []
+                    for item in words:
+                        cipher = encrypt(item)
+                        encrypted.append(cipher)
+                    with open(file_path, 'w') as file:
+                        # Iterate through the list and write each element to a new line in the file
+                        for item in encrypted:
+                            file.write(str(item) + '\n')
+                    print(file)
+                    remove_line(file_path, '', 4)
+                os.system('cls')
+                print("[SUCCESS] All files have been synced")
+                input("Press enter to continue")
+                break
+
+            elif u == 'n':
+                break
+            else:
+                print("invalid input")
+
+        except:
+            print("invalid input")
+
 
 # main function that controls what is done
 def configurator():
@@ -717,13 +772,13 @@ def configurator():
     print("____________________________________")
     config = int(input(">"))
     if config == 1:
-        filename = file_checker('database', 1)
+        filename = file_checker('database-backup', 1)
         duplicate_checker(filename)
     elif config == 2:
-        filename = file_checker('database', 1)
+        filename = file_checker('database-backup', 1)
         file_sorter(filename, 1)
     elif config == 3:
-        filename = file_checker('database', 1)
+        filename = file_checker('database-backup', 1)
         file_shuffler(filename, 1)
     elif config == 4:
         filename = file_checker('database', 1)
