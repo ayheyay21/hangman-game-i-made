@@ -1,233 +1,25 @@
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+from Crypto.Random import get_random_bytes
+import secrets
+import string
+import base64
 import random
 import os
-import sys
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-sys.set_int_max_str_digits(0)
-#This function decrypts previously encrypted values
-def decrypt(cipher):
-    def string_separate_into_elements_list(stringbin1):
-        stringbin1arr = [None] * (len(stringbin1))
-        v = 0
-        for bit in stringbin1:
-            stringbin1arr[v] = bit
-            v += 1
-        return stringbin1arr
-    def dec_remap_char(cipherarr, cipher):
-        cipherogarr = [None] * (len(cipher))
-        hexval = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
-        remapval = ['%', 'r', '[', '?', '7', 'q', '$', 'K', 'z', ')', '{', 'a', 'F', '3', '6', 'e']
-        b = 0
-        for value in cipherarr:
-            v = 0
-            flag = False
-            while flag == False:
-                if value == remapval[v]:
-                    cipherogarr[b] = hexval[v]
-                    flag = True
-                v += 1
-            b += 1
-        return cipherogarr
-    def list_join_into_string(wordarrbin):
-        stringbin1 = ''
-        for letter in range(0, len(wordarrbin)):
-            stringbin1 = stringbin1 + wordarrbin[letter]
-        return stringbin1
-    def hex_into_dec_string(hexstring):
-        denval = int(hexstring, base=16)
-        denvalstr = str(denval)
-        return denvalstr
-    def string_separate_into_elements_list(stringbin1):
-        stringbin1arr = [None] * (len(stringbin1))
-        v = 0
-        for bit in stringbin1:
-            stringbin1arr[v] = bit
-            v += 1
-        return stringbin1arr
-    def each_element_string_to_int(denvalstrarr):
-        denvalintarr = [0] * (len(denvalstr))
-        w = 0
-        for digit in denvalstrarr:
-            denvalintarr[w] = int(digit)
-            w += 1
-        return denvalintarr
-    def dec_remap_digits(denvalintarr):
-        remap2 = [4, 7, 5, 1, 9, 6, 3, 8, 0, 2]
-        ogdenvalintarr = [0] * (len(denvalintarr))
-        h = 0
-        for digit in denvalintarr:
-            ogdenvalintarr[h] = remap2[digit]
-            h += 1
-        return ogdenvalintarr
-    def subtract_each_element_from_nine(ogdenvalintarrrev):
-        originaldenary = [0] * (len(ogdenvalintarrrev))
-        f = 0
-        for item in ogdenvalintarrrev:
-            originaldenary[f] = 9 - item
-            f += 1
-        return originaldenary
-    def int_list_to_string(originaldenary):
-        orignaldenarystrarr = [None] * (len(originaldenary))
-        p = 0
-        for item in originaldenary:
-            orignaldenarystrarr[p] = str(item)
-            p += 1
-        originaldenarystr = ''
-        for item in orignaldenarystrarr:
-            originaldenarystr = originaldenarystr + item
-        originaldenaryint = int(originaldenarystr)
-        decimal = originaldenaryint
-        return decimal
-    def denary_string_to_hex_string(decimal):
-        hex_digits = "0123456789ABCDEF"
-        hexadecimal = ""
-        while decimal > 0:
-            remainder = decimal % 16
-            hexadecimal = hex_digits[remainder] + hexadecimal
-            decimal = decimal // 16
-        kys = hexadecimal
-        code = kys
-        return code
-    def shift_dec_code(code):
-        codeshift1 = int(code[len(code) - 2])
-        codeshift2 = int(code[len(code) - 1])
-        return codeshift1, codeshift2
-    def split_string_into_pairs_minus_last_two(code):
-        codearr = [None] * (len(code) // 2)
-        for count in range(0, len(codearr)):
-            codearr[count] = ''
-        index = 0
-        for t in range(0, len(codearr)):
-            for y in range(0 + index, 2 + index):
-                codearr[t] = codearr[t] + code[y]
-            index += 2
-        codearr.pop()
-        return codearr
-    def two_digit_hex_into_eight_bit_binary(codearr):
-        codebinarr = [None] * (len(codearr))
-        r = 0
-        for item in codearr:
-            hexdecnum = item
-            binnum = ""
-            hexlen = len(hexdecnum)
-            i = 0
-            while i < hexlen:
-                if hexdecnum[i] == '0':
-                    binnum = binnum + "0000"
-                elif hexdecnum[i] == '1':
-                    binnum = binnum + "0001"
-                elif hexdecnum[i] == '2':
-                    binnum = binnum + "0010"
-                elif hexdecnum[i] == '3':
-                    binnum = binnum + "0011"
-                elif hexdecnum[i] == '4':
-                    binnum = binnum + "0100"
-                elif hexdecnum[i] == '5':
-                    binnum = binnum + "0101"
-                elif hexdecnum[i] == '6':
-                    binnum = binnum + "0110"
-                elif hexdecnum[i] == '7':
-                    binnum = binnum + "0111"
-                elif hexdecnum[i] == '8':
-                    binnum = binnum + "1000"
-                elif hexdecnum[i] == '9':
-                    binnum = binnum + "1001"
-                elif hexdecnum[i] == 'a' or hexdecnum[i] == 'A':
-                    binnum = binnum + "1010"
-                elif hexdecnum[i] == 'b' or hexdecnum[i] == 'B':
-                    binnum = binnum + "1011"
-                elif hexdecnum[i] == 'c' or hexdecnum[i] == 'C':
-                    binnum = binnum + "1100"
-                elif hexdecnum[i] == 'd' or hexdecnum[i] == 'D':
-                    binnum = binnum + "1101"
-                elif hexdecnum[i] == 'e' or hexdecnum[i] == 'E':
-                    binnum = binnum + "1110"
-                elif hexdecnum[i] == 'f' or hexdecnum[i] == 'F':
-                    binnum = binnum + "1111"
-                i = i + 1
-            codebinarr[r] = binnum
-            r += 1
-        return codebinarr
-    def list_join_into_string(codebinarr):
-        binstring = ''
-        for f in range(0, len(codebinarr)):
-            binstring = binstring + codebinarr[f]
-        return binstring
-    def string_split_into_separate_elements(binstring):
-        binstringarr = [None] * (len(binstring))
-        for g in range(0, len(binstring)):
-            binstringarr[g] = binstring[g]
-        return binstringarr
-    def string_swap_codeshift(binstringarr, codeshift1, codeshift2):
-        for item in range(0, len(binstringarr), codeshift2):
-            if binstringarr[item] == '0':
-                binstringarr[item] = '1'
-            elif binstringarr[item] == '1':
-                binstringarr[item] = '0'
-        for item in range(0, len(binstringarr), codeshift1):
-            if binstringarr[item] == '0':
-                binstringarr[item] = '1'
-            elif binstringarr[item] == '1':
-                binstringarr[item] = '0'
-        return binstringarr
-    def split_string_into_eight_bits(binstring2):
-        binstringarr2 = [None] * (len(binstring2) // 8)
-        for n in range(0, len(binstringarr2)):
-            binstringarr2[n] = ''
-        index = 0
-        for t in range(0, len(binstringarr2)):
-            for y in range(0 + index, 8 + index):
-                binstringarr2[t] = binstringarr2[t] + binstring2[y]
-            index += 8
-        return binstringarr2
-    def eight_bit_binary_to_denary(binstringarr2):
-        arrbindec = [None] * (len(binstringarr2))
-        for k in range(0, len(binstringarr2)):
-            b_num = list(binstringarr2[k])
-            value = 0
-            for i in range(len(b_num)):
-                digit = b_num.pop()
-                if digit == '1':
-                    value = value + pow(2, i)
-            arrbindec[k] = value
-        return arrbindec
-    def denary_to_ascii_char(arrbindec):
-        binascarr = [None] * len(binstringarr2)
-        z = 0
-        for item in arrbindec:
-            binascarr[z] = chr(item)
-            z += 1
-        return binascarr
+def decrypt(encrypted_base64):
+    key = "s4$t%%2rW@kL9&xZ"
+    key = key.encode('utf-8')
+    encrypted_data = base64.b64decode(encrypted_base64)
+    iv = encrypted_data[:AES.block_size]
+    encrypted = encrypted_data[AES.block_size:]
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    decrypted_padded = cipher.decrypt(encrypted)
+    decrypted = unpad(decrypted_padded, AES.block_size)
+    return decrypted.decode('utf-8')
 
-    while True:
-        try:
-            os.system('cls')
-            cipherarr = string_separate_into_elements_list(cipher)
-            cipherogarr = dec_remap_char(cipherarr, cipher)
-            hexstring = list_join_into_string(cipherogarr)
-            denvalstr = hex_into_dec_string(hexstring)
-            denvalstrarr = string_separate_into_elements_list(denvalstr)
-            denvalintarr = each_element_string_to_int(denvalstrarr)
-            ogdenvalintarr = dec_remap_digits(denvalintarr)
-            ogdenvalintarrrev = ogdenvalintarr[::-1]
-            originaldenary = subtract_each_element_from_nine(ogdenvalintarrrev)
-            decimal = int_list_to_string(originaldenary)
-            code = denary_string_to_hex_string(decimal)
-            codeshift1, codeshift2 = shift_dec_code(code)
-            codearr = split_string_into_pairs_minus_last_two(code)
-            codebinarr = two_digit_hex_into_eight_bit_binary(codearr)
-            binstring = list_join_into_string(codebinarr)
-            binstringarr = string_split_into_separate_elements(binstring)
-            binstringarr = string_swap_codeshift(binstringarr, codeshift1, codeshift2)
-            binstring2 = list_join_into_string(binstringarr)
-            binstringarr2 = split_string_into_eight_bits(binstring2)
-            arrbindec = eight_bit_binary_to_denary(binstringarr2)
-            binascarr = denary_to_ascii_char(arrbindec)
-            decryptcipherstr = list_join_into_string(binascarr)
-            return decryptcipherstr
-        except:
-            return 'error'
 
 # function used a random word from a chosen theme text file
 def word_extractor(filename):
