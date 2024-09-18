@@ -1,4 +1,6 @@
 # Configurator
+from logging import exception
+
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
@@ -9,7 +11,8 @@ import base64
 import random
 import os
 
-script_dir = os.path.dirname(os.path.abspath(__file__))
+from unicodedata import category
+
 
 def encrypt(plaintext):
     key = "s4$t%%2rW@kL9&xZ"
@@ -33,7 +36,6 @@ def decrypt(encrypted_base64):
     return decrypted.decode('utf-8')
 
 def table_checker(tag):
-    #function the retrieves the file names
     def table_name_retriever():
         tables = get_words('sqlite_sequence', 'name')
         return tables
@@ -101,47 +103,64 @@ def insert_words(category_name, words):
             cipher TEXT NOT NULL
         );''')
 
+    wordlist = get_words(category_name, 'word')
+    f = False
     for word in words:
-        encrypted_word = encrypt(word)
-        cursor.execute(f'INSERT INTO "{category_name}" (word, cipher) VALUES (?, ?)', (word, encrypted_word))
+        if word not in wordlist:
+            encrypted_word = encrypt(word)
+            cursor.execute(f'INSERT INTO "{category_name}" (word, cipher) VALUES (?, ?)', (word, encrypted_word))
+        else:
+            print(f"The word [{word}] already exists in table [{category_name}]")
+            f = True
+
+    if f == True:
+        input("press enter to continue")
 
     conn.commit()
     conn.close()
 
 def word_inserter():
     os.system('cls')
-    print("______________________________")
-    print("1: Pre-existing category")
-    print("2: Create a new table")
-    print("______________________________")
-    p = int(input(">"))
-    if p == 1:
-        os.system('cls')
-        table = table_checker(1)
-        os.system('cls')
-        print("\n\n")
-        words = []
-        check = True
-        while check:
+    while True:
+        print("______________________________")
+        print("1: Pre-existing category")
+        print("2: Create a new table")
+        print("______________________________")
+        p = int(input(">"))
+        if p == 1:
+            os.system('cls')
+            table = table_checker(1)
+            os.system('cls')
+            break
+        elif p == 2:
             os.system('cls')
             print("\n\n")
-            word = input("Enter the word: ")
-            words.append(word)
-            a = input("Another word? (y/n): ")
-            if a.lower() == 'n':
-                check = False
-            elif a.lower() == 'y':
-                pass
-            else:
-                print("invalid input, quitting after inserting...")
-                check = False
+            category_name = input("Enter the name of the category: ")
+            table = category_name
+            break
+        else:
+            os.system('cls')
+            print("invalid input")
 
-        insert_words(table, words)
+    print("\n\n")
+    words = []
+    check = True
+    while check:
         os.system('cls')
-        print("\n\n[SUCCESS] Words have been inserted into the database")
-        input("Press enter to continue")
+        print("\n")
+        print("Enter -1 to stop inputting words")
+        print("\n\n")
+        word = input("Enter the word: ")
+        if word == '-1':
+            break
+        words.append(word)
 
 
+    insert_words(table, words)
+    os.system('cls')
+    print("\n\n[SUCCESS] The word(s) have been inserted into the database")
+    input("Press enter to continue")
+    os.system('cls')
 
 def database_column_fetcher(table_name):
     conn = sqlite3.connect('database.db')
@@ -193,16 +212,67 @@ def list_printer(wordlist, tag):
         for element in wordlist:
             print(f"{count}: {element}")
             count += 1
+
+def delete_table(table_name):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute(f'DROP TABLE IF EXISTS "{table_name}"')
+        conn.commit()
+    except sqlite3.DatabaseError as e:
+        print(f"Database error: {e}")
+        conn.rollback()
+    finally:
+        conn.close()
+
+def table_reset(table_name):
+    wordlist = get_words(table_name, 'word')
+    delete_table(table_name)
+    insert_words(table_name, wordlist)
+
+def delete_row_by_name(table_name, name):
+    # Connect to the SQLite database
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(f'DELETE FROM "{table_name}" WHERE word = ?', (name,))
+        conn.commit()
+
+        os.system('cls')
+        print(f'[SUCCESS] Row with word "{name}" deleted from {table_name}.')
+        input("Press enter to continue")
+
+    except sqlite3.DatabaseError as e:
+        print(f"Database error: {e}")
+        conn.rollback()
+
+    finally:
+        conn.close()
+
+def row_deleter():
+    try:
+        table_name = table_checker(1)
+        wordlist = get_words(table_name, 'word')
+        list_printer(wordlist, 1)
+        name = input("Enter the name of the row you wish to delete: ").lower()
+        delete_row_by_name(table_name, name)
+        table_reset(table_name)
+        os.system('cls')
+    except Exception as e:
+        print(f"Error: {e}")
         input("Press enter to continue")
 
 # main function that controls what is done
 def configurator():
+    os.system('cls')
     while True:
         try:
             print("Enter -1 to quit")
             print("____________________________________")
             print("1: Retrieve data from database")
             print("2: Insert data into the database")
+            print("3: Remove an element from a table")
             print("____________________________________")
             config = int(input(">"))
             if config == 1:
@@ -211,18 +281,22 @@ def configurator():
                 column_name = database_column_fetcher(table_name)
                 wordlist = get_words(table_name, column_name)
                 list_printer(wordlist, 1)
+                input("Press enter to continue")
                 os.system('cls')
             elif config == 2:
                 os.system('cls')
                 word_inserter()
                 os.system('cls')
+            elif config == 3:
+                os.system('cls')
+                row_deleter()
             elif config == -1:
                 return
             else:
                 os.system('cls')
                 print("invalid input")
-        except:
+        except Exception as e:
             os.system('cls')
-            print("invalid input")
-        
+            print(f"error: {e}")
+
 configurator()
