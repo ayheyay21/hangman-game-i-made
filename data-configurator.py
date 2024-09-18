@@ -384,6 +384,23 @@ def file_synchronization():
         except:
             print("invalid input")
 
+def get_words(category_name, column_name):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    query = f'SELECT "{column_name}" FROM "{category_name}"'
+
+    try:
+        cursor.execute(query)
+        cipher = [row[0] for row in cursor.fetchall()]
+        return cipher
+
+    except sqlite3.OperationalError as e:
+        print(f"An error occurred: {e}")
+        return []
+
+    finally:
+        conn.close()
 
 def insert_words(category_name, words):
     conn = sqlite3.connect('database.db')
@@ -412,6 +429,12 @@ def database_insertion():
     print("[SUCCESS] Data has been transferred")
     input("press enter to continue")
 
+def database_fetcher():
+    column_name = input("Enter the column name: ")
+    category_name = input("Enter the name of the table: ")
+    wordlist = get_words(category_name, column_name)
+    print(wordlist)
+
 # main function that controls what is done
 def configurator():
     os.system('cls')
@@ -424,6 +447,7 @@ def configurator():
     print("6: Decrypt file (Ensure all elements are encrypted first")
     print("7: Sync database from database backup")
     print("8: Transfer data into SQL database")
+    print("9: Retrieve data from SQL database")
     print("____________________________________")
     config = int(input(">"))
     if config == 1:
@@ -448,5 +472,7 @@ def configurator():
         file_synchronization()
     elif config == 8:
         database_insertion()
+    elif config == 9:
+        database_fetcher()
 
 configurator()
