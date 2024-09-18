@@ -2,7 +2,6 @@
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
-import sqlite3
 import secrets
 import string
 import base64
@@ -21,7 +20,7 @@ def encrypt(plaintext):
     encrypted_base64 = base64.b64encode(iv + encrypted).decode('utf-8')
     return encrypted_base64
 
-def decrypt(encrypted_base64):
+def decrypt_string(encrypted_base64):
     key = "s4$t%%2rW@kL9&xZ"
     key = key.encode('utf-8')
     encrypted_data = base64.b64decode(encrypted_base64)
@@ -384,56 +383,6 @@ def file_synchronization():
         except:
             print("invalid input")
 
-def get_words(category_name, column_name):
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-
-    query = f'SELECT "{column_name}" FROM "{category_name}"'
-
-    try:
-        cursor.execute(query)
-        cipher = [row[0] for row in cursor.fetchall()]
-        return cipher
-
-    except sqlite3.OperationalError as e:
-        print(f"An error occurred: {e}")
-        return []
-
-    finally:
-        conn.close()
-
-def insert_words(category_name, words):
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-
-    cursor.execute(f'''
-        CREATE TABLE IF NOT EXISTS "{category_name}" (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            word TEXT NOT NULL,
-            cipher TEXT NOT NULL
-        );''')
-
-    for word in words:
-        encrypted_word = encrypt(word)
-        cursor.execute(f'INSERT INTO "{category_name}" (word, cipher) VALUES (?, ?)', (word, encrypted_word))
-
-    conn.commit()
-    conn.close()
-
-def database_insertion():
-    file_names = file_checker('database-backup', 2)
-    options = [os.path.splitext(f)[0] if f.endswith('.txt') else f for f in file_names]
-    for i in range(0, len(options)):
-        wordlist = wordlist_extractor(file_names[i], 1, 'database-backup')
-        insert_words(options[i], wordlist)
-    print("[SUCCESS] Data has been transferred")
-    input("press enter to continue")
-
-def database_fetcher():
-    column_name = input("Enter the column name: ")
-    category_name = input("Enter the name of the table: ")
-    wordlist = get_words(category_name, column_name)
-    print(wordlist)
 
 # main function that controls what is done
 def configurator():
@@ -446,8 +395,6 @@ def configurator():
     print("5: Encrypt file (Ensure all elements are unencrypted first)")
     print("6: Decrypt file (Ensure all elements are encrypted first")
     print("7: Sync database from database backup")
-    print("8: Transfer data into SQL database")
-    print("9: Retrieve data from SQL database")
     print("____________________________________")
     config = int(input(">"))
     if config == 1:
@@ -470,9 +417,5 @@ def configurator():
         file_decrypter(filename)
     elif config == 7:
         file_synchronization()
-    elif config == 8:
-        database_insertion()
-    elif config == 9:
-        database_fetcher()
 
 configurator()
