@@ -203,6 +203,57 @@ def list_printer(wordlist, tag):
         for element in wordlist:
             print(f"{count}: {element}")
             count += 1
+
+
+def delete_table(table_name):
+    conn = sqlite3.connect('hangman.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute(f'DROP TABLE IF EXISTS "{table_name}"')
+        conn.commit()
+    except sqlite3.DatabaseError as e:
+        print(f"Database error: {e}")
+        conn.rollback()
+    finally:
+        conn.close()
+
+def table_reset(table_name):
+    wordlist = get_words(table_name, 'word')
+    delete_table(table_name)
+    insert_words(table_name, wordlist)
+
+
+def delete_row_by_name(table_name, name):
+    # Connect to the SQLite database
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(f'DELETE FROM "{table_name}" WHERE word = ?', (name,))
+        conn.commit()
+
+        os.system('cls')
+        print(f'[SUCCESS] Row with word "{name}" deleted from {table_name}.')
+        input("Press enter to continue")
+
+    except sqlite3.DatabaseError as e:
+        print(f"Database error: {e}")
+        conn.rollback()
+
+    finally:
+        conn.close()
+
+def row_deleter():
+    try:
+        table_name = table_checker(1)
+        wordlist = get_words(table_name, 'word')
+        list_printer(wordlist, 1)
+        name = input("Enter the name of the row you wish to delete: ").lower()
+        delete_row_by_name(table_name, name)
+        table_reset(table_name)
+        os.system('cls')
+    except Exception as e:
+        print(f"Error: {e}")
         input("Press enter to continue")
 
 # main function that controls what is done
@@ -214,6 +265,7 @@ def configurator():
             print("____________________________________")
             print("1: Retrieve data from database")
             print("2: Insert data into the database")
+            print("3: Remove an element from a table")
             print("____________________________________")
             config = int(input(">"))
             if config == 1:
@@ -222,11 +274,15 @@ def configurator():
                 column_name = database_column_fetcher(table_name)
                 wordlist = get_words(table_name, column_name)
                 list_printer(wordlist, 1)
+                input("Press enter to continue")
                 os.system('cls')
             elif config == 2:
                 os.system('cls')
                 word_inserter()
                 os.system('cls')
+            elif config == 3:
+                os.system('cls')
+                row_deleter()
             elif config == -1:
                 return
             else:
