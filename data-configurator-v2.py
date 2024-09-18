@@ -11,8 +11,6 @@ import base64
 import random
 import os
 
-script_dir = os.path.dirname(os.path.abspath(__file__))
-
 def encrypt(plaintext):
     key = "s4$t%%2rW@kL9&xZ"
     key = key.encode('utf-8')
@@ -35,7 +33,6 @@ def decrypt(encrypted_base64):
     return decrypted.decode('utf-8')
 
 def table_checker(tag):
-    #function the retrieves the file names
     def table_name_retriever():
         tables = get_words('sqlite_sequence', 'name')
         return tables
@@ -206,7 +203,7 @@ def list_printer(wordlist, tag):
 
 
 def delete_table(table_name):
-    conn = sqlite3.connect('hangman.db')
+    conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     try:
         cursor.execute(f'DROP TABLE IF EXISTS "{table_name}"')
@@ -221,7 +218,6 @@ def table_reset(table_name):
     wordlist = get_words(table_name, 'word')
     delete_table(table_name)
     insert_words(table_name, wordlist)
-
 
 def delete_row_by_name(table_name, name):
     # Connect to the SQLite database
