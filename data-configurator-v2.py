@@ -1,4 +1,6 @@
 # Configurator
+from logging import exception
+
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
@@ -110,38 +112,49 @@ def insert_words(category_name, words):
 
 def word_inserter():
     os.system('cls')
-    print("______________________________")
-    print("1: Pre-existing category")
-    print("2: Create a new table")
-    print("______________________________")
-    p = int(input(">"))
-    if p == 1:
-        os.system('cls')
-        table = table_checker(1)
-        os.system('cls')
-        print("\n\n")
-        words = []
-        check = True
-        while check:
+    while True:
+        print("______________________________")
+        print("1: Pre-existing category")
+        print("2: Create a new table")
+        print("______________________________")
+        p = int(input(">"))
+        if p == 1:
+            os.system('cls')
+            table = table_checker(1)
+            os.system('cls')
+            break
+        elif p == 2:
             os.system('cls')
             print("\n\n")
-            word = input("Enter the word: ")
-            words.append(word)
-            a = input("Another word? (y/n): ")
-            if a.lower() == 'n':
-                check = False
-            elif a.lower() == 'y':
-                pass
-            else:
-                print("invalid input, quitting after inserting...")
-                check = False
+            category_name = input("Enter the name of the category: ")
+            table = category_name
+            break
+        else:
+            os.system('cls')
+            print("invalid input")
 
-        insert_words(table, words)
+    print("\n\n")
+    words = []
+    check = True
+    while check:
         os.system('cls')
-        print("\n\n[SUCCESS] Words have been inserted into the database")
-        input("Press enter to continue")
+        print("\n\n")
+        word = input("Enter the word: ")
+        words.append(word)
+        a = input("Another word? (y/n): ")
+        if a.lower() == 'n':
+            check = False
+        elif a.lower() == 'y':
+            pass
+        else:
+            print("invalid input, quitting after inserting...")
+            check = False
 
-
+    insert_words(table, words)
+    os.system('cls')
+    print("\n\n[SUCCESS] Words have been inserted into the database")
+    input("Press enter to continue")
+    os.system('cls')
 
 def database_column_fetcher(table_name):
     conn = sqlite3.connect('database.db')
@@ -197,6 +210,7 @@ def list_printer(wordlist, tag):
 
 # main function that controls what is done
 def configurator():
+    os.system('cls')
     while True:
         try:
             print("Enter -1 to quit")
@@ -221,8 +235,8 @@ def configurator():
             else:
                 os.system('cls')
                 print("invalid input")
-        except:
+        except Exception as e:
             os.system('cls')
-            print("invalid input")
-        
+            print(f"error: {e}")
+
 configurator()
