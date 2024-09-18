@@ -108,6 +108,41 @@ def insert_words(category_name, words):
     conn.commit()
     conn.close()
 
+def word_inserter():
+    os.system('cls')
+    print("______________________________")
+    print("1: Pre-existing category")
+    print("2: Create a new table")
+    print("______________________________")
+    p = int(input(">"))
+    if p == 1:
+        os.system('cls')
+        table = table_checker(1)
+        os.system('cls')
+        print("\n\n")
+        words = []
+        check = True
+        while check:
+            os.system('cls')
+            print("\n\n")
+            word = input("Enter the word: ")
+            words.append(word)
+            a = input("Another word? (y/n): ")
+            if a.lower() == 'n':
+                check = False
+            elif a.lower() == 'y':
+                pass
+            else:
+                print("invalid input, quitting after inserting...")
+                check = False
+
+        insert_words(table, words)
+        os.system('cls')
+        print("\n\n[SUCCESS] Words have been inserted into the database")
+        input("Press enter to continue")
+
+
+
 def database_column_fetcher(table_name):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
@@ -151,13 +186,14 @@ def database_column_fetcher(table_name):
     finally:
         conn.close()
 
-def list_printer(wordlist):
+def list_printer(wordlist, tag):
     os.system('cls')
-    count = 1
-    for element in wordlist:
-        print(f"{count}: {element}")
-        count += 1
-    input("Press enter to continue")
+    if tag == 1:
+        count = 1
+        for element in wordlist:
+            print(f"{count}: {element}")
+            count += 1
+        input("Press enter to continue")
 
 # main function that controls what is done
 def configurator():
@@ -165,13 +201,16 @@ def configurator():
         os.system('cls')
         print("____________________________________")
         print("1: Retrieve data from database")
+        print("2: Insert data into the database")
         print("____________________________________")
         config = int(input(">"))
         if config == 1:
             table_name = table_checker(1)
             column_name = database_column_fetcher(table_name)
             wordlist = get_words(table_name, column_name)
-            list_printer(wordlist)
+            list_printer(wordlist, 1)
+        elif config == 2:
+            word_inserter()
 
 
 configurator()
