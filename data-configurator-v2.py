@@ -72,7 +72,6 @@ def table_checker(tag):
     elif tag == 2:
         return options
 
-
 def get_words(category_name, column_name):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
@@ -152,17 +151,27 @@ def database_column_fetcher(table_name):
     finally:
         conn.close()
 
+def list_printer(wordlist):
+    os.system('cls')
+    count = 1
+    for element in wordlist:
+        print(f"{count}: {element}")
+        count += 1
+    input("Press enter to continue")
+
 # main function that controls what is done
 def configurator():
-    os.system('cls')
-    print("____________________________________")
-    print("1: Retrieve data from database")
-    print("____________________________________")
-    config = int(input(">"))
-    if config == 1:
-        table_name = table_checker(1)
-        column_name = database_column_fetcher(table_name)
-        wordlist = get_words(table_name, column_name)
-        print(wordlist)
+    while True:
+        os.system('cls')
+        print("____________________________________")
+        print("1: Retrieve data from database")
+        print("____________________________________")
+        config = int(input(">"))
+        if config == 1:
+            table_name = table_checker(1)
+            column_name = database_column_fetcher(table_name)
+            wordlist = get_words(table_name, column_name)
+            list_printer(wordlist)
+
 
 configurator()
