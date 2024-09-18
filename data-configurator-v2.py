@@ -42,6 +42,8 @@ def table_checker(tag):
 
     if tag == 1:
         while True:
+            os.system('cls')
+            print("List of tables: ")
             count = 0
             print("______________________________________")
             for item in options:
@@ -116,6 +118,8 @@ def database_column_fetcher(table_name):
         columns_info = cursor.fetchall()
         options = [column[1] for column in columns_info]
         while True:
+            os.system('cls')
+            print("List of columns: ")
             count = 0
             print("______________________________________")
             for item in options:
