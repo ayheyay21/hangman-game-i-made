@@ -138,17 +138,14 @@ def word_inserter():
     check = True
     while check:
         os.system('cls')
+        print("\n")
+        print("Enter -1 to stop inputting words")
         print("\n\n")
         word = input("Enter the word: ")
+        if word == '-1':
+            break
         words.append(word)
-        a = input("Another word? (y/n): ")
-        if a.lower() == 'n':
-            check = False
-        elif a.lower() == 'y':
-            pass
-        else:
-            print("invalid input, quitting after inserting...")
-            check = False
+
 
     insert_words(table, words)
     os.system('cls')
