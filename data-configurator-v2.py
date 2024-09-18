@@ -11,6 +11,9 @@ import base64
 import random
 import os
 
+from unicodedata import category
+
+
 def encrypt(plaintext):
     key = "s4$t%%2rW@kL9&xZ"
     key = key.encode('utf-8')
@@ -100,9 +103,18 @@ def insert_words(category_name, words):
             cipher TEXT NOT NULL
         );''')
 
+    wordlist = get_words(category_name, 'word')
+    f = False
     for word in words:
-        encrypted_word = encrypt(word)
-        cursor.execute(f'INSERT INTO "{category_name}" (word, cipher) VALUES (?, ?)', (word, encrypted_word))
+        if word not in wordlist:
+            encrypted_word = encrypt(word)
+            cursor.execute(f'INSERT INTO "{category_name}" (word, cipher) VALUES (?, ?)', (word, encrypted_word))
+        else:
+            print(f"The word [{word}] already exists in table [{category_name}]")
+            f = True
+
+    if f == True:
+        input("press enter to continue")
 
     conn.commit()
     conn.close()
@@ -146,7 +158,7 @@ def word_inserter():
 
     insert_words(table, words)
     os.system('cls')
-    print("\n\n[SUCCESS] Words have been inserted into the database")
+    print("\n\n[SUCCESS] The word(s) have been inserted into the database")
     input("Press enter to continue")
     os.system('cls')
 
@@ -200,7 +212,6 @@ def list_printer(wordlist, tag):
         for element in wordlist:
             print(f"{count}: {element}")
             count += 1
-
 
 def delete_table(table_name):
     conn = sqlite3.connect('database.db')
