@@ -198,19 +198,31 @@ def list_printer(wordlist, tag):
 # main function that controls what is done
 def configurator():
     while True:
-        os.system('cls')
-        print("____________________________________")
-        print("1: Retrieve data from database")
-        print("2: Insert data into the database")
-        print("____________________________________")
-        config = int(input(">"))
-        if config == 1:
-            table_name = table_checker(1)
-            column_name = database_column_fetcher(table_name)
-            wordlist = get_words(table_name, column_name)
-            list_printer(wordlist, 1)
-        elif config == 2:
-            word_inserter()
-
-
+        try:
+            print("Enter -1 to quit")
+            print("____________________________________")
+            print("1: Retrieve data from database")
+            print("2: Insert data into the database")
+            print("____________________________________")
+            config = int(input(">"))
+            if config == 1:
+                os.system('cls')
+                table_name = table_checker(1)
+                column_name = database_column_fetcher(table_name)
+                wordlist = get_words(table_name, column_name)
+                list_printer(wordlist, 1)
+                os.system('cls')
+            elif config == 2:
+                os.system('cls')
+                word_inserter()
+                os.system('cls')
+            elif config == -1:
+                return
+            else:
+                os.system('cls')
+                print("invalid input")
+        except:
+            os.system('cls')
+            print("invalid input")
+        
 configurator()
