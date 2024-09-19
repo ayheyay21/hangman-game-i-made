@@ -1,6 +1,8 @@
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
+import tkinter as tk
+from tkinter import messagebox
 import sqlite3
 import secrets
 import string
@@ -76,143 +78,178 @@ def get_words(category_name, column_name):
     finally:
         conn.close()
 
-#the main hangman game
-def main():
-    continuechk = True
-    while continuechk == True:
-        os.system('cls')
-        option = table_checker(1)
-        if option == 'quit':
-            continuechk = False
+class HangmanGame:
+    def __init__(self, master):
+        self.master = master
+        self.master.title("Hangman Game")
+
+        self.category_name = None
+        self.wordlist = []
+        self.word = ""
+        self.chances = 6
+        self.blankarr = []
+        self.repeated = []
+
+        self.setup_start_menu()
+
+    def setup_start_menu(self):
+        self.clear_widgets()  # Clear existing widgets
+
+        self.category_label = tk.Label(self.master, text="Select a category:")
+        self.category_label.pack(pady=10)
+
+        self.category_var = tk.StringVar(self.master)
+        self.category_var.set("Choose a category")  # Default value
+
+        categories = table_checker(2)  # Fetch categories
+        self.category_menu = tk.OptionMenu(self.master, self.category_var, *categories)
+        self.category_menu.pack(pady=10)
+
+        self.start_button = tk.Button(self.master, text="Start Game", command=self.start_game)
+        self.start_button.pack(pady=20)
+
+    def start_game(self):
+        self.category_name = self.category_var.get()
+        if self.category_name == "Choose a category":
+            messagebox.showwarning("Selection Error", "Please select a valid category.")
+            return
+
+        self.wordlist = get_words(self.category_name, 'cipher')
+        if not self.wordlist:
+            messagebox.showwarning("No Words", "No words found for this category.")
+            return
+
+        self.word = decrypt(random.choice(self.wordlist))
+        self.chances = 6
+        self.blankarr = ['_' if c.isalpha() else c for c in self.word]
+        self.repeated = []
+
+        self.setup_game_ui()
+
+    def setup_game_ui(self):
+        self.clear_widgets()  # Clear existing widgets
+
+        self.canvas = tk.Canvas(self.master, width=200, height=200)
+        self.canvas.pack()
+
+        self.display_word = tk.Label(self.master, text=' '.join(self.blankarr), font=("Helvetica", 24))
+        self.display_word.pack(pady=20)
+
+        self.entry = tk.Entry(self.master, font=("Helvetica", 18))
+        self.entry.pack(pady=20)
+
+        self.guess_button = tk.Button(self.master, text="Guess", command=self.make_guess)
+        self.guess_button.pack(pady=10)
+
+        self.chances_label = tk.Label(self.master, text=f"Chances left: {self.chances}")
+        self.chances_label.pack(pady=20)
+
+        self.repeated_label = tk.Label(self.master, text="", font=("Helvetica", 14))
+        self.repeated_label.pack(pady=10)
+
+        self.notification_label = tk.Label(self.master, text="", fg="red", font=("Helvetica", 12))
+        self.notification_label.pack(pady=5)
+
+        self.reset_button = tk.Button(self.master, text="Choose Another Category", command=self.setup_start_menu)
+        self.reset_button.pack(pady=10)
+
+        self.draw_hangman()  # Draw initial empty gallows
+
+    def draw_hangman(self):
+        self.canvas.delete("all")  # Clear previous drawings
+
+        # Draw gallows
+        self.canvas.create_line(30, 180, 170, 180)  # Base
+        self.canvas.create_line(50, 180, 50, 30)    # Vertical post
+        self.canvas.create_line(50, 30, 150, 30)    # Horizontal beam
+        self.canvas.create_line(150, 30, 150, 50)    # Support beam
+
+        # Draw stick figure based on chances
+        if self.chances == 6:  # No drawing
+            pass
+        elif self.chances == 5:
+            self.canvas.create_oval(130, 50, 170, 90)  # Head
+        elif self.chances == 4:
+            self.canvas.create_oval(130, 50, 170, 90)  # Head
+            self.canvas.create_line(150, 90, 150, 150)  # Body
+        elif self.chances == 3:
+            self.canvas.create_oval(130, 50, 170, 90)  # Head
+            self.canvas.create_line(150, 90, 150, 150)  # Body
+            self.canvas.create_line(150, 110, 130, 130)  # Left arm
+        elif self.chances == 2:
+            self.canvas.create_oval(130, 50, 170, 90)  # Head
+            self.canvas.create_line(150, 90, 150, 150)  # Body
+            self.canvas.create_line(150, 110, 130, 130)  # Left arm
+            self.canvas.create_line(150, 110, 170, 130)  # Right arm
+        elif self.chances == 1:
+            self.canvas.create_oval(130, 50, 170, 90)  # Head
+            self.canvas.create_line(150, 90, 150, 150)  # Body
+            self.canvas.create_line(150, 110, 130, 130)  # Left arm
+            self.canvas.create_line(150, 110, 170, 130)  # Right arm
+            self.canvas.create_line(150, 150, 130, 170)  # Left leg
+        elif self.chances == 0:
+            self.canvas.create_oval(130, 50, 170, 90)  # Head
+            self.canvas.create_line(150, 90, 150, 150)  # Body
+            self.canvas.create_line(150, 110, 130, 130)  # Left arm
+            self.canvas.create_line(150, 110, 170, 130)  # Right arm
+            self.canvas.create_line(150, 150, 130, 170)  # Left leg
+            self.canvas.create_line(150, 150, 170, 170)  # Right leg
+
+    def make_guess(self):
+        guess = self.entry.get().lower()
+        self.entry.delete(0, tk.END)
+
+        self.notification_label.config(text="")  # Clear previous notifications
+
+        if len(guess) != 1 or not guess.isalpha():
+            self.notification_label.config(text="Invalid input. Please enter a single letter.")
+            return
+
+        if guess in self.repeated:
+            self.notification_label.config(text="Letter already attempted.")
+            self.update_repeated_letters()
+            return
+
+        self.repeated.append(guess)
+
+        if guess in self.word:
+            for i, letter in enumerate(self.word):
+                if letter == guess:
+                    self.blankarr[i] = letter
+            self.display_word.config(text=' '.join(self.blankarr))
+            if '_' not in self.blankarr:
+                messagebox.showinfo("Congratulations", "You've guessed the word!")
+                self.reset_game()
         else:
-            # sends choice to word_extractor and return a random word from chosen file
-            wordlist = get_words(option, 'cipher')
-            word1 = random.choice(wordlist)
-            word = decrypt(word1)
-            wordarr = [None] * (len(word))
-            blankarr = [None] * (len(word))
-            blankarr1 = [None] * (len(word))
-            blank2arr = []
-            blank1 = '_' * (len(word))
-            blank = blank1
-            # hangman diagrams
-            def chance_printer(chances):
-                def chance_printer2(chancearr):
-                    for item in chancearr:
-                        print(item)
+            self.chances -= 1
+            self.chances_label.config(text=f"Chances left: {self.chances}")
+            self.draw_hangman()  # Update hangman drawing
+            if self.chances == 0:
+                messagebox.showinfo("Game Over", f"You couldn't guess the word. It was: {self.word}")
+                self.reset_game()
 
-                chancearr6 = ['     ______ ', "    |      |", '           |', '           |', '           |', '   ---------']
-                chancearr5 = ['     ______ ', "    |      |", '    O      |', '           |', '           |', '   ---------']
-                chancearr4 = ['     ______ ', "    |      |", '    O      |', '    |      |', '           |', '   ---------']
-                chancearr3 = ['     ______ ', "    |      |", '    O      |', '   /|      |', '           |', '   ---------']
-                chancearr2 = ['     ______ ', "    |      |", '    O      |', '   /|\     |', '           |', '   ---------']
-                chancearr1 = ['     ______ ', "    |      |", '    O      |', '   /|\     |', '   /       |', '   ---------']
-                chancearr0 = ['     ______ ', "    |      |", '    O      |', '   /|\     |', '   / \     |', '   ---------']
-                if chances == 6:
-                    chance_printer2(chancearr6)
-                elif chances == 5:
-                    chance_printer2(chancearr5)
-                elif chances == 4:
-                    chance_printer2(chancearr4)
-                elif chances == 3:
-                    chance_printer2(chancearr3)
-                elif chances == 2:
-                    chance_printer2(chancearr2)
-                elif chances == 1:
-                    chance_printer2(chancearr1)
-                elif chances == 0:
-                    chance_printer2(chancearr0)
+        self.update_repeated_letters()  # Update repeated letters display
 
-            for x in range(0, (len(word))):
-                blankarr[x] = blank[x]
-            for x in range(0, (len(word))):
-                wordarr[x] = word[x]
+    def update_repeated_letters(self):
+        if not self.repeated:
+            self.repeated_label.config(text="")
+        else:
+            self.repeated_label.config(text=f"Letters Attempted: {', '.join(self.repeated)}")
 
-            repeated = [None]
-            repeated.remove(None)
+    def reset_game(self):
+        self.word = ""
+        self.chances = 6
+        self.blankarr = []
+        self.repeated.clear()
+        self.update_repeated_letters()  # Reset repeated letters display
+        self.notification_label.config(text="")  # Clear notifications
+        self.setup_start_menu()  # Return to category selection
 
-            # used to add the punctuations and numbers to the blanks
-            punct = [' ', "'", '"', '-', ':', ';', ',', '.', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
-            p = 0
-            for letter in word:
-                if letter in punct:
-                    blankarr[p] = letter
-                p = p + 1
+    def clear_widgets(self):
+        for widget in self.master.winfo_children():
+            widget.destroy()  # Clear existing widgets
 
-            # the game begins here
-            # the game runs until the user runs out of chances or completes the game
-            completion = False
-            chances = 6
-            while ((chances > 0) and (completion == False)):
-
-                blanknonarr = ''
-                for z in range(0, len(blankarr)):
-                    blanknonarr = blanknonarr + blankarr[z]
-
-                # adds spaces to the blanks output
-                blank2 = ''
-                for item in blanknonarr:
-                    blank2 = blank2 + item
-                    blank2 = blank2 + ' '
-                blank2arr = []
-                for item in blank2:
-                    blank2arr.append(item)
-                blank2arr.pop()
-                blank3 = ''
-                for item in blank2arr:
-                    blank3 = blank3 + item
-
-                print(f'[{blank3}]')
-                guess1 = input("Guess a letter: ")
-                guess = guess1.lower()
-                if len(guess) == 1 and guess in 'abcdefghijklmnopqrstuvwxyz':
-                    rep = False
-                    if guess not in repeated:
-                        for g in range(0, (len(word))):
-                            blankarr1[g] = blankarr[g]
-                        y = 0
-                        for letter in word:
-                            if letter == guess:
-                                blankarr[y] = letter
-                            y = y + 1
-                        if blankarr == wordarr:
-                            completion = True
-                        if blankarr1 == blankarr:
-                            chances = chances - 1
-                            os.system('cls')
-                            print("INCORRECT")
-                        else:
-                            os.system('cls')
-                            print("CORRECT")
-
-                        repeated.append(guess)
-                    else:
-                        os.system('cls')
-                        print("LETTER ALREADY ATTEMPTED")
-                else:
-                    os.system('cls')
-                    print(f"[{guess}] is an invalid input. Single letters only")
-
-                print(f'Attempted letters: {repeated}')
-                chance_printer(chances)
-
-            os.system('cls')
-            if chances == 0 and completion == False:
-                print("YOU COULDNT GUESS THE WORD")
-                chance_printer(0)
-            elif chances > 0 and completion == True:
-                print("CONGRATULATIONS ON GUESSING THE WORD!!!!")
-                chance_printer(chances)
-            print("THE WORD WAS:")
-            print(f'[{word}]')
-
-            okchec = input("Do you want to try again? type no if false: ")
-            if okchec == 'no':
-                continuechk = False
-
-
-main()
-
-# List of known issues and possible improvements
-# 3- Can use direct user keyboard input to register a letter rather than pressing enter
-# 4- Should make a function to automatically insert new words into files
+if __name__ == "__main__":
+    root = tk.Tk()
+    game = HangmanGame(root)
+    root.mainloop()
