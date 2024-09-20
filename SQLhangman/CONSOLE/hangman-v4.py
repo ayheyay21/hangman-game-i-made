@@ -1,10 +1,16 @@
-import tkinter as tk
-from tkinter import messagebox
 import random
 import sqlite3
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
 import base64
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.button import Button
+from kivy.uix.dropdown import DropDown
+from kivy.uix.popup import Popup
+from kivy.graphics import Color, Line, Ellipse
+
 
 def decrypt(encrypted_base64):
     key = "s4$t%%2rW@kL9&xZ".encode('utf-8')
@@ -14,13 +20,6 @@ def decrypt(encrypted_base64):
     cipher = AES.new(key, AES.MODE_CBC, iv)
     decrypted_padded = cipher.decrypt(encrypted)
     return unpad(decrypted_padded, AES.block_size).decode('utf-8')
-
-def table_checker(tag):
-    def table_name_retriever():
-        return get_words('sqlite_sequence', 'name')
-
-    options = table_name_retriever()
-    return options if tag == 2 else []
 
 def get_words(category_name, column_name):
     conn = sqlite3.connect('database.db')
@@ -35,54 +34,62 @@ def get_words(category_name, column_name):
     finally:
         conn.close()
 
-class HangmanGame:
-    def __init__(self, master):
-        self.master = master
-        self.master.title("Hangman Game")
-
-        self.category_name = None
-        self.wordlist = []
+class HangmanGame(BoxLayout):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.orientation = 'vertical'
         self.word = ""
         self.chances = 6
         self.blankarr = []
         self.repeated = []
-        self.keyboard_buttons = []  # Initialize keyboard buttons list
 
-        self.category_label = tk.Label(self.master, text="", font=("Helvetica", 16))
-        self.category_label.pack(pady=10)
+        self.category_label = Label(text="Select a category:")
+        self.add_widget(self.category_label)
 
-        self.setup_start_menu()
+        self.category_dropdown = DropDown()
+        self.category_var = Label(text="Choose a category", size_hint_y=None, height=44)
+        self.category_var.bind(on_release=self.category_dropdown.open)
+        self.add_widget(self.category_var)
 
-    def setup_start_menu(self):
-        self.clear_widgets()
+        categories = self.get_categories()
+        for category in categories:
+            btn = Button(text=category, size_hint_y=None, height=44)
+            btn.bind(on_release=lambda btn: self.select_category(btn.text))
+            self.category_dropdown.add_widget(btn)
 
-        self.category_label = tk.Label(self.master, text="Select a category:", font=("Helvetica", 16))
-        self.category_label.pack(pady=10)
+        self.start_button = Button(text="Start Game", on_press=self.start_game)
+        self.add_widget(self.start_button)
 
-        self.category_var = tk.StringVar(self.master)
-        self.category_var.set("Choose a category")
+        self.canvas = self.create_canvas()
+        self.add_widget(self.canvas)
 
-        categories = table_checker(2)
-        self.category_menu = tk.OptionMenu(self.master, self.category_var, *categories)
-        self.category_menu.pack(pady=10)
+    def create_canvas(self):
+        canvas = BoxLayout(size_hint_y=None, height=300)
+        canvas.bind(size=self.update_canvas_size)
+        return canvas
 
-        self.start_button = tk.Button(self.master, text="Start Game", command=self.start_game)
-        self.start_button.pack(pady=20)
+    def update_canvas_size(self, instance, size):
+        self.draw_hangman()
 
-    def start_game(self):
-        self.category_name = self.category_var.get()
-        self.category_label.config(text=f"Category: {self.category_name}")
+    def get_categories(self):
+        return get_words('sqlite_sequence', 'name')
 
-        if self.category_name == "Choose a category":
-            messagebox.showwarning("Selection Error", "Please select a valid category.")
+    def select_category(self, category):
+        self.category_var.text = category
+        self.category_dropdown.dismiss()
+
+    def start_game(self, instance):
+        category_name = self.category_var.text
+        if category_name == "Choose a category":
+            self.show_popup("Selection Error", "Please select a valid category.")
             return
 
-        self.wordlist = get_words(self.category_name, 'cipher')
-        if not self.wordlist:
-            messagebox.showwarning("No Words", "No words found for this category.")
+        wordlist = get_words(category_name, 'cipher')
+        if not wordlist:
+            self.show_popup("No Words", "No words found for this category.")
             return
 
-        self.word = decrypt(random.choice(self.wordlist))
+        self.word = decrypt(random.choice(wordlist))
         self.chances = 6
         self.blankarr = ['_' if c.isalpha() else c for c in self.word]
         self.repeated = []
@@ -90,146 +97,88 @@ class HangmanGame:
         self.setup_game_ui()
 
     def setup_game_ui(self):
-        self.clear_widgets()  # Clear existing widgets
+        self.clear_widgets()
+        self.add_widget(Label(text=' '.join(self.blankarr), font_size='24sp'))
+        self.chances_label = Label(text=f"Chances left: {self.chances}")
+        self.add_widget(self.chances_label)
 
-        self.canvas = tk.Canvas(self.master, width=200, height=200)
-        self.canvas.pack()
+        self.create_keyboard()
+        self.reset_button = Button(text="Choose Another Category", on_press=self.setup_start_menu)
+        self.add_widget(self.reset_button)
 
-        self.display_word = tk.Label(self.master, text=' '.join(self.blankarr), font=("Helvetica", 24))
-        self.display_word.pack(pady=20)
-
-        self.chances_label = tk.Label(self.master, text=f"Chances left: {self.chances}")
-        self.chances_label.pack(pady=20)
-
-        self.repeated_label = tk.Label(self.master, text="", font=("Helvetica", 14))
-        self.repeated_label.pack(pady=10)
-
-        self.notification_label = tk.Label(self.master, text="", fg="red", font=("Helvetica", 12))
-        self.notification_label.pack(pady=5)
-
-        self.create_keyboard()  # Create the keyboard below the blanks
-
-        self.reset_button = tk.Button(self.master, text="Choose Another Category", command=self.setup_start_menu)
-        self.reset_button.pack(pady=10)
-
-        self.draw_hangman()  # Draw initial empty gallows
+        self.draw_hangman()
 
     def draw_hangman(self):
-        self.canvas.delete("all")
+        self.canvas.clear_widgets()
+        with self.canvas.canvas:
+            Color(0, 0, 0)  # Black color
+            # Base
+            Line(points=[30, 50, 170, 50])
+            Line(points=[50, 50, 50, 30])
+            Line(points=[50, 30, 150, 30])
+            Line(points=[150, 30, 150, 50])
 
-        self.canvas.create_line(30, 180, 170, 180)
-        self.canvas.create_line(50, 180, 50, 30)
-        self.canvas.create_line(50, 30, 150, 30)
-        self.canvas.create_line(150, 30, 150, 50)
-
-        if self.chances == 6:  # No drawing
-            pass
-        elif self.chances == 5:
-            self.canvas.create_oval(130, 50, 170, 90)  # Head
-        elif self.chances == 4:
-            self.canvas.create_oval(130, 50, 170, 90)  # Head
-            self.canvas.create_line(150, 90, 150, 150)  # Body
-        elif self.chances == 3:
-            self.canvas.create_oval(130, 50, 170, 90)  # Head
-            self.canvas.create_line(150, 90, 150, 150)  # Body
-            self.canvas.create_line(150, 110, 130, 130)  # Left arm
-        elif self.chances == 2:
-            self.canvas.create_oval(130, 50, 170, 90)  # Head
-            self.canvas.create_line(150, 90, 150, 150)  # Body
-            self.canvas.create_line(150, 110, 130, 130)  # Left arm
-            self.canvas.create_line(150, 110, 170, 130)  # Right arm
-        elif self.chances == 1:
-            self.canvas.create_oval(130, 50, 170, 90)  # Head
-            self.canvas.create_line(150, 90, 150, 150)  # Body
-            self.canvas.create_line(150, 110, 130, 130)  # Left arm
-            self.canvas.create_line(150, 110, 170, 130)  # Right arm
-            self.canvas.create_line(150, 150, 130, 170)  # Left leg
-        elif self.chances == 0:
-            self.canvas.create_oval(130, 50, 170, 90)  # Head
-            self.canvas.create_line(150, 90, 150, 150)  # Body
-            self.canvas.create_line(150, 110, 130, 130)  # Left arm
-            self.canvas.create_line(150, 110, 170, 130)  # Right arm
-            self.canvas.create_line(150, 150, 130, 170)  # Left leg
-            self.canvas.create_line(150, 150, 170, 170)  # Right leg
+            # Draw the hangman based on chances
+            if self.chances < 6:
+                Ellipse(pos=(130, 50), size=(40, 40))  # Head
+            if self.chances < 5:
+                Line(points=[150, 90, 150, 150])  # Body
+            if self.chances < 4:
+                Line(points=[150, 110, 130, 130])  # Left arm
+            if self.chances < 3:
+                Line(points=[150, 110, 170, 130])  # Right arm
+            if self.chances < 2:
+                Line(points=[150, 150, 130, 170])  # Left leg
+            if self.chances < 1:
+                Line(points=[150, 150, 170, 170])  # Right leg
 
     def create_keyboard(self):
-        keyboard_frame = tk.Frame(self.master)
-        keyboard_frame.pack(pady=10)
-
-        # Define rows of keys
-        keys = [
-            "qwertyuiop",
-            "asdfghjkl",
-            "zxcvbnm"
-        ]
-
-        for row in keys:
-            row_frame = tk.Frame(keyboard_frame)
-            row_frame.pack()
-
-            for letter in row:
-                button = tk.Button(
-                    row_frame,
-                    text=letter,
-                    font=("Helvetica", 16),  # Increase font size
-                    width=4,  # Increase button width
-                    height=2,  # Increase button height
-                    command=lambda l=letter: self.make_guess(l)  # Pass letter to make_guess
-                )
-                button.pack(side=tk.LEFT, padx=5, pady=5)  # Add some padding between buttons
+        keyboard_layout = BoxLayout(size_hint_y=None, height=50)
+        keys = "qwertyuiopasdfghjklzxcvbnm"
+        for letter in keys:
+            button = Button(text=letter, on_press=lambda btn: self.make_guess(btn.text))
+            keyboard_layout.add_widget(button)
+        self.add_widget(keyboard_layout)
 
     def make_guess(self, guess):
-        self.notification_label.config(text="")  # Clear previous notifications
-
         if guess in self.repeated:
-            self.notification_label.config(text="Letter already attempted.")
-            self.update_repeated_letters()
+            self.show_popup("Already Guessed", "Letter already attempted.")
             return
 
         self.repeated.append(guess)
-        self.update_repeated_letters()  # Update repeated letters display
+        for i, letter in enumerate(self.word):
+            if letter == guess:
+                self.blankarr[i] = letter
+        self.chances -= 1
 
-        # Disable the button for the guessed letter
-        for button in self.keyboard_buttons:
-            if button.cget("text") == guess:
-                button.config(state=tk.DISABLED)
+        if '_' not in self.blankarr:
+            self.show_popup("Congratulations", "You've guessed the word!")
+            self.reset_game()
+        elif self.chances <= 0:
+            self.show_popup("Game Over", f"The word was: {self.word}")
+            self.reset_game()
 
-        if guess in self.word:
-            for i, letter in enumerate(self.word):
-                if letter == guess:
-                    self.blankarr[i] = letter
-            self.display_word.config(text=' '.join(self.blankarr))
-            if '_' not in self.blankarr:
-                messagebox.showinfo("Congratulations", "You've guessed the word!")
-                self.reset_game()
-        else:
-            self.chances -= 1
-            self.chances_label.config(text=f"Chances left: {self.chances}")
-            self.draw_hangman()
-            if self.chances == 0:
-                messagebox.showinfo("Game Over", f"You couldn't guess the word. It was: {self.word}")
-                self.reset_game()
-
-    def update_repeated_letters(self):
-        if not self.repeated:
-            self.repeated_label.config(text="")
-        else:
-            self.repeated_label.config(text=f"Letters Attempted: {', '.join(self.repeated)}")
+        self.chances_label.text = f"Chances left: {self.chances}"
+        self.draw_hangman()
 
     def reset_game(self):
         self.word = ""
         self.chances = 6
         self.blankarr = []
         self.repeated.clear()
-        self.update_repeated_letters()
-        self.notification_label.config(text="")
         self.setup_start_menu()
 
-    def clear_widgets(self):
-        for widget in self.master.winfo_children():
-            widget.destroy()
+    def setup_start_menu(self):
+        self.clear_widgets()
+        self.__init__()
+
+    def show_popup(self, title, message):
+        popup = Popup(title=title, content=Label(text=message), size_hint=(0.6, 0.4))
+        popup.open()
+
+class HangmanApp(App):
+    def build(self):
+        return HangmanGame()
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    game = HangmanGame(root)
-    root.mainloop()
+    HangmanApp().run()
