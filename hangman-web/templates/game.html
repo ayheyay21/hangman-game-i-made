@@ -1,17 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <title>Hangman Game</title>
 </head>
 <body>
-    <h1>Guess the word!</h1>
-    <p>Word: {{ word|replace('', '_', True) }}</p>
-    <form action="#" method="post">
-        <input type="text" name="guess" maxlength="1" required>
+    <h1>Guess the Word!</h1>
+    
+    <pre>
+    {% for line in hangman_diagram %}
+        {{ line }}
+    {% endfor %}
+    </pre>
+
+    <p class="word-display">Word: {{ word }}</p>  <!-- Display the prepared word with spaces -->
+    
+    <p>Chances left: {{ chances }}</p>
+    <p>Guessed letters: {{ guessed_letters }}</p>
+
+    <form method="POST">
+        <input type="text" name="guess" maxlength="1" required placeholder="Guess a letter">
         <button type="submit">Guess</button>
     </form>
-    <a href="/">Choose another category</a>
+    <a href="{{ url_for('reset') }}">Reset Game</a>
+    <div class="footer">
+        <p>Good luck!</p>
+    </div>
 </body>
 </html>
