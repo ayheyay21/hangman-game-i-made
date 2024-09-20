@@ -1,13 +1,12 @@
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
+import sqlite3
 import secrets
 import string
 import base64
 import random
 import os
-
-script_dir = os.path.dirname(os.path.abspath(__file__))
 
 def decrypt(encrypted_base64):
     key = "s4$t%%2rW@kL9&xZ"
@@ -20,88 +19,76 @@ def decrypt(encrypted_base64):
     decrypted = unpad(decrypted_padded, AES.block_size)
     return decrypted.decode('utf-8')
 
+def table_checker(tag):
+    def table_name_retriever():
+        tables = get_words('sqlite_sequence', 'name')
+        return tables
 
-# function used a random word from a chosen theme text file
-def word_extractor(filename):
-    os.system('cls')
-    file_path = os.path.join(script_dir, 'database', filename)
-    with open(file_path) as f:
-        wordlist = []
-        for line in f:
-            wordlist.append(line.strip())
+    options = table_name_retriever()
 
-    word1 = random.choice(wordlist)
-    word2 = decrypt(word1)
-    word = word2.lower()
-    return word
-
-# function that automatically outputs the possible options
-def file_checker():
-    #function the retrieves the file names
-    def file_name_retriever():
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        target_folder = os.path.join(script_dir, 'database')
-        files = [f for f in os.listdir(target_folder) if os.path.isfile(os.path.join(target_folder, f))]
-        return files
-    file_names = file_name_retriever()
-    #removes the .txt from the end
-    options = [os.path.splitext(f)[0] if f.endswith('.txt') else f for f in file_names]
-
-    # replaces a dash in the file name with a space
-    def dash_remover(word_in_options):
-        string1 = ''
-        for item in word_in_options:
-            if item == '-':
-                string1 = string1 + " "
-            else:
-                string1 = string1 + item
-        return string1
-
-    f = 0
-    for item in options:
-        replacement = dash_remover(item)
-        options[f] = replacement
-        f += 1
-
-    while True:
-        count = 0
-        print("______________________________________")
-        for item in options:
-            count += 1
-            print(f"{count}: {item.title()}")
-        print("______________________________________")
-        try:
-            hangchoice = int(input(">"))
-            if hangchoice > 0 and hangchoice <= count:
-                selected_file = file_names[hangchoice - 1]
-                return selected_file
-            elif hangchoice == -1:
-                return 'quit'
-            else:
+    if tag == 1:
+        while True:
+            os.system('cls')
+            print("List of tables: ")
+            count = 0
+            print("______________________________________")
+            for item in options:
+                count += 1
+                print(f"{count}: {item.title()}")
+            print("______________________________________")
+            try:
+                hangchoice = int(input(">"))
+                if hangchoice > 0 and hangchoice <= count:
+                    selected_table = options[hangchoice - 1]
+                    return selected_table
+                elif hangchoice == -1:
+                    return 'quit'
+                else:
+                    print("____________________________________")
+                    tchoice = input("Invalid Input")
+                    print("____________________________________")
+                    os.system('cls')
+                    print("ENTER -1 TO QUIT")
+            except:
                 print("____________________________________")
                 tchoice = input("Invalid Input")
                 print("____________________________________")
                 os.system('cls')
                 print("ENTER -1 TO QUIT")
-        except:
-            print("____________________________________")
-            tchoice = input("Invalid Input")
-            print("____________________________________")
-            os.system('cls')
-            print("ENTER -1 TO QUIT")
+    elif tag == 2:
+        return options
 
+def get_words(category_name, column_name):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    query = f'SELECT "{column_name}" FROM "{category_name}"'
+
+    try:
+        cursor.execute(query)
+        cipher = [row[0] for row in cursor.fetchall()]
+        return cipher
+
+    except sqlite3.OperationalError as e:
+        print(f"An error occurred: {e}")
+        return []
+
+    finally:
+        conn.close()
 
 #the main hangman game
 def main():
     continuechk = True
     while continuechk == True:
         os.system('cls')
-        option = file_checker()
+        option = table_checker(1)
         if option == 'quit':
             continuechk = False
         else:
             # sends choice to word_extractor and return a random word from chosen file
-            word = word_extractor(option)
+            wordlist = get_words(option, 'cipher')
+            word1 = random.choice(wordlist)
+            word = decrypt(word1)
             wordarr = [None] * (len(word))
             blankarr = [None] * (len(word))
             blankarr1 = [None] * (len(word))
