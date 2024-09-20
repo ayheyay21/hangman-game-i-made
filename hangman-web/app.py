@@ -60,7 +60,6 @@ def index():
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():
-    # Check if 'word' is in session; if not, redirect to the index
     if 'word' not in session:
         return redirect(url_for('index'))
 
@@ -79,13 +78,16 @@ def game():
 
             session['chances'] = chances
 
-        if chances <= 0 or all(letter in guessed_letters or letter == ' ' for letter in word):
+        # Check if the game should end
+        if chances <= 0 or all(
+                letter in guessed_letters or letter.isspace() or not letter.isalpha() for letter in word):
             return redirect(url_for('result'))
 
     hangman_diagram = HANGMAN_DIAGRAMS[6 - chances]
 
-    # Prepare the display word with spaces preserved
-    displayed_word = ''.join([letter if letter in guessed_letters or letter == ' ' else '_' for letter in word])
+    # Prepare the display word with spaces and punctuation preserved
+    displayed_word = ''.join(
+        [letter if letter in guessed_letters or letter.isspace() or not letter.isalpha() else '_' for letter in word])
 
     return render_template('game.html', word=displayed_word, chances=chances, guessed_letters=guessed_letters,
                            hangman_diagram=hangman_diagram)
